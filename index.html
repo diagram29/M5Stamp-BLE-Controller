@@ -4,6 +4,22 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M5 Stamp S3 BLE コントローラ</title>
+    <link rel="manifest" href="/manifest.json">
+    <script>
+        // Service Workerの登録
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                // sw.js は、オフライン対応のためのファイルです
+                navigator.serviceWorker.register('/sw.js') 
+                    .then(registration => {
+                        console.log('SW registered: ', registration);
+                    })
+                    .catch(registrationError => {
+                        console.log('SW registration failed: ', registrationError);
+                    });
+            });
+        }
+    </script>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
