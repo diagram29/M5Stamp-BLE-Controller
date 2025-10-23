@@ -49,8 +49,9 @@ connectButton.addEventListener('click', async () => {
 
         // サービスUUIDを指定してデバイスをスキャン
         bleDevice = await navigator.bluetooth.requestDevice({
-            filters: [{ services: [SERVICE_UUID] }],
-            optionalServices: [SERVICE_UUID]
+            //filters: [{ services: [SERVICE_UUID] }],
+            acceptAllDevices: true, // 👈 すべてのデバイスをスキャンさせる
+            optionalServices: [SERVICE_UUID, 'device_information']
         });
 
         deviceNameElement.textContent = `接続先: ${bleDevice.name || '不明なデバイス'}`;
