@@ -24,46 +24,47 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+    <h1>M5 Stamp S3 BLE コントローラ</h1>
+
+ <div class="main-container">
+  <div class="column left-column">
     <div class="log-area">
         <h2>デバイスからのメッセージ</h2>
         <textarea id="log" rows="10" readonly></textarea>
     </div>
     
-    <h1>M5 Stamp S3 BLE コントローラ</h1>
-    
-    <div class="manual-control">
-        <h2>手動操作 (WASD)</h2>
-        <div class="wasd-grid">
-            <button id="W" data-cmd="11" class="action-btn">W (上昇)</button>
-            
-            <div></div> 
-
-            <button id="A" data-cmd="22" class="action-btn">A (左走行)</button>
-            
-            <button id="S" data-cmd="12" class="action-btn">S (下降)</button>
-            
-            <button id="D" data-cmd="21" class="action-btn">D (右走行)</button>
-        </div>
-        
-        <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
-        <div class="stop-controls">
-            <button id="Z" data-cmd="93" class="action-btn stop">Z (全停止)</button>
-            
-            <button id="E" data-cmd="99" class="action-btn emergency">E (緊急停止)</button>
-        </div>
-    </div>
-
     <hr>
-
     <div class="auto-control">
         <h2>自動走行コマンド</h2>
         <input type="text" id="autoCmdInput" placeholder="例: atl 10 s 2 c 10 b 10 d">
         <button id="sendAutoCmdButton" class="send-btn">コマンド送信</button>
         <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
     </div>
-
     <hr>
+    
+  </div>  
+
+  <div class="column right-column">
+    <div class="manual-control">
+        <h2>手動操作 (WASDキー対応)</h2>
+        <div class="wasd-grid">
+            <button id="W" data-cmd="11" class="action-btn">W <br>(上昇)</button>
+            
+            <div></div> 
+
+            <button id="A" data-cmd="22" class="action-btn">A <br>(左走行)</button>            
+            <button id="S" data-cmd="12" class="action-btn">S <br>(下降)</button>          
+            <button id="D" data-cmd="21" class="action-btn">D <br>(右走行)</button>
+        </div>
+        
+        <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
+        <div class="stop-controls">
+            <button id="Z" data-cmd="93" class="action-btn stop">Z <br>(全停止)</button>        
+            <button id="E" data-cmd="99" class="action-btn emergency">E <br>(緊急停止)</button>
+        </div>
+    </div>
+  </div>
+ </div>
 
     <div class="controls">
         <button id="connectButton" class="connect">デバイスに接続</button>
