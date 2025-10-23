@@ -101,8 +101,12 @@ async function sendCommand(command) {
         log('先にデバイスに接続してください。', true);
         return;
     }
+
+    // ⭐️ 修正点：ナル文字 (\0) を追加 ⭐️
+    const commandWithNull = command.trim() + '\0';
     
-    const data = stringToBytes(command.toUpperCase().trim());
+    const data = stringToBytes(commandWithNull); // 👈 ナル文字付きの文字列を変換
+    
     try {
         await rxCharacteristic.writeValue(data);
         log(`-> コマンド送信: ${command.toUpperCase()}`);

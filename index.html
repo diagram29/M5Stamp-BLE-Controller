@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>M5 Stamp S3 BLE コントローラ</title>
+    
     <link rel="manifest" href="/manifest.json">
     <script>
-        // Service Workerの登録
+        // Service Workerの登録（オフライン対応）
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
-                // sw.js は、オフライン対応のためのファイルです
                 navigator.serviceWorker.register('/sw.js') 
                     .then(registration => {
                         console.log('SW registered: ', registration);
@@ -20,32 +20,38 @@
             });
         }
     </script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>M5 Stamp S3 BLE コントローラ</h1>
     
-    <div class="controls">
-        <button id="connectButton" class="connect">デバイスに接続</button>
-        <div id="status" class="status">未接続</div>
-
-        <div id="deviceName" class="device-info"></div>
+    <div class="log-area">
+        <h2>デバイスからのメッセージ</h2>
+        <textarea id="log" rows="10" readonly></textarea>
     </div>
     
-    <hr>
+    <h1>M5 Stamp S3 BLE コントローラ</h1>
     
     <div class="manual-control">
         <h2>手動操作 (WASD)</h2>
         <div class="wasd-grid">
             <button id="W" data-cmd="W" class="action-btn">W (上昇)</button>
-            <div></div> <button id="E" data-cmd="E" class="action-btn emergency">E (緊急停止)</button>
+            
+            <div></div> 
 
             <button id="A" data-cmd="A" class="action-btn">A (左走行)</button>
+            
             <button id="S" data-cmd="S" class="action-btn">S (下降)</button>
+            
             <button id="D" data-cmd="D" class="action-btn">D (右走行)</button>
         </div>
+        
         <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
-        <button id="Z" data-cmd="Z" class="action-btn stop">Z (全停止)</button>
+        <div class="stop-controls">
+            <button id="Z" data-cmd="Z" class="action-btn stop">Z (全停止)</button>
+            
+            <button id="E" data-cmd="E" class="action-btn emergency">E (緊急停止)</button>
+        </div>
     </div>
 
     <hr>
@@ -59,9 +65,10 @@
 
     <hr>
 
-    <div class="log-area">
-        <h2>デバイスからのメッセージ</h2>
-        <textarea id="log" rows="10" readonly></textarea>
+    <div class="controls">
+        <button id="connectButton" class="connect">デバイスに接続</button>
+        <div id="status" class="status">未接続</div>
+        <div id="deviceName" class="device-info"></div>
     </div>
 
     <script src="script.js"></script>
