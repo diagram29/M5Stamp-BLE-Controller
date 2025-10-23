@@ -129,7 +129,7 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     // キーを離したら停止コマンド (mouseup)
     // ただし、Z (全停止)ボタンは停止コマンド自体なので例外
     if (command !== 'Z') {
-        button.addEventListener('mouseup', () => sendCommand('99'));
+        button.addEventListener('mouseup', () => sendCommand('93'));
         // タッチデバイス用 (touchstart/touchend)
         button.addEventListener('touchstart', (e) => { e.preventDefault(); sendCommand(command); });
         button.addEventListener('touchend', (e) => { e.preventDefault(); sendCommand('99'); });
@@ -148,7 +148,7 @@ document.getElementById('stopAtButton').addEventListener('click', () => {
 });
 
 // Z (全停止) ボタンの独立した処理
-document.getElementById('Z').addEventListener('click', () => sendCommand('99'));
+document.getElementById('Z').addEventListener('click', () => sendCommand('93'));
 
 // --- キーボード操作の割り当て ---
 
@@ -216,7 +216,7 @@ document.addEventListener('keyup', (event) => {
         keysPressed[event.key] = false; 
         
         // WASDの場合は、キーが離されたら停止コマンド 'Z' を送る
-        if (['W', 'A', 'S', 'D'].includes(key)) {
+        if (['W', 'S'].includes(key)) {
 
             sendCommand('93');
 
