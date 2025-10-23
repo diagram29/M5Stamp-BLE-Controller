@@ -2,8 +2,8 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f9;
-    color: #333;
+    background-color: #333131;
+    color: #e20909;
     padding: 20px;
     max-width: 600px;
     margin: 0 auto;
@@ -26,31 +26,34 @@ hr {
 }
 
 /* -------------------- レイアウト順序設定 -------------------- */
-.log-area {
-    order: 1; /* ログエリアを一番上 (1番目) */
-    border: 1px solid #ccc;
-    padding: 10px;
-    background-color: #fff;
-}
 
 h1 {
-    order: 2; /* タイトルを2番目 */
+    order: 1; /* タイトルを1番目 */
 }
 
-.manual-control {
-    order: 3; /* 手動操作パネルを3番目 */
-    text-align: center;
-    padding: 15px;
-    border: 1px solid #ddd;
-    background-color: #fff;
+.log-area {
+    order: 2; /* ログエリアを一番上 (2番目) */
+    border: 1px solid #360fe2;
+    padding: 10px;
+    background-color: #504949;
 }
 
 .auto-control {
-    order: 4; /* 自動操作コマンドを4番目 */
+    order: 3; /* 自動操作コマンドを4番目 */
     padding: 15px;
-    border: 1px solid #ddd;
-    background-color: #fff;
+    border: 1px solid #360fe2;
+    background-color: #504949;
 }
+
+
+.manual-control {
+    order: 4; /* 手動操作パネルを3番目 */
+    text-align: center;
+    padding: 15px;
+    border: 1px solid #360fe2;
+    background-color: #504949;
+}
+
 
 .controls {
     order: 5; /* 接続ボタンを一番下 (5番目) */
@@ -62,9 +65,9 @@ h1 {
 .log-area textarea {
     width: 100%;
     box-sizing: border-box;
-    min-height: 150px;
+    min-height: 300px;
     padding: 10px;
-    border: 1px solid #ccc;
+    border: 1px solid #ec0f0f;
     resize: vertical;
 }
 
@@ -137,7 +140,7 @@ h1 {
 
 /* --- 接続ボタン --- */
 .connect {
-    padding: 10px 20px;
+    padding: 20px 40px;
     font-size: 18px;
     background-color: #007bff; /* 標準: 青 */
     color: white;

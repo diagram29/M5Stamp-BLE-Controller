@@ -129,10 +129,10 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     // キーを離したら停止コマンド (mouseup)
     // ただし、Z (全停止)ボタンは停止コマンド自体なので例外
     if (command !== 'Z') {
-        button.addEventListener('mouseup', () => sendCommand('Z'));
+        button.addEventListener('mouseup', () => sendCommand('99'));
         // タッチデバイス用 (touchstart/touchend)
         button.addEventListener('touchstart', (e) => { e.preventDefault(); sendCommand(command); });
-        button.addEventListener('touchend', (e) => { e.preventDefault(); sendCommand('Z'); });
+        button.addEventListener('touchend', (e) => { e.preventDefault(); sendCommand('99'); });
     }
 });
 
@@ -148,4 +148,4 @@ document.getElementById('stopAtButton').addEventListener('click', () => {
 });
 
 // Z (全停止) ボタンの独立した処理
-document.getElementById('Z').addEventListener('click', () => sendCommand('Z'));
+document.getElementById('Z').addEventListener('click', () => sendCommand('99'));
