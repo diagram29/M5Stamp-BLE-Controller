@@ -149,3 +149,84 @@ document.getElementById('stopAtButton').addEventListener('click', () => {
 
 // Z (全停止) ボタンの独立した処理
 document.getElementById('Z').addEventListener('click', () => sendCommand('99'));
+
+
+
+
+// --- キーボード操作の割り当て ---
+
+// 連続送信を防ぐためのフラグ (キーが押しっぱなしになっていないか確認)
+const keysPressed = {};
+
+// ⭐️ キーが押されたときの処理 (keydown) ⭐️
+document.addEventListener('keydown', (event) => {
+    // すでにキーが押されている場合は重複して実行しない
+    if (keysPressed[event.key]) {
+        return;
+    }
+    
+    // UIの要素にフォーカスが当たっている場合は無視 (誤入力を防ぐ)
+    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+        return;
+    }
+
+    const key = event.key.toUpperCase();
+    let commandToSend = '';
+
+    switch (key) {
+        case 'W':
+            commandToSend = 'W'; // 上昇
+            break;
+        case 'A':
+            commandToSend = 'A'; // 左走行
+            break;
+        case 'S':
+            commandToSend = 'S'; // 下降
+            break;
+        case 'D':
+            commandToSend = 'D'; // 右走行
+            break;
+        case 'Z':
+            commandToSend = 'Z'; // 全停止
+            break;
+        case 'E':
+            commandToSend = 'E'; // 緊急停止
+            break;
+        default:
+            return; // 割り当てられていないキーは無視
+    }
+    
+    // コマンドを送信
+    if (commandToSend) {
+        sendCommand(commandToSend);
+        keysPressed[event.key] = true; // キーが押された状態を記録
+        
+        // 視覚的なフィードバック: 対応するUIボタンをアクティブ状態にする
+        const button = document.getElementById(key);
+        if (button) {
+            button.classList.add('active-key');
+        }
+    }
+});
+
+// ⭐️ キーが離されたときの処理 (keyup) ⭐️
+document.addEventListener('keyup', (event) => {
+    const key = event.key.toUpperCase();
+    
+    // 割り当てられたキーが離された場合のみ処理
+    if (keysPressed[event.key]) {
+        // キーが離された状態を解除
+        keysPressed[event.key] = false; 
+        
+        // WASDの場合は、キーが離されたら停止コマンド 'Z' を送る
+        if (['W', 'A', 'S', 'D'].includes(key)) {
+            // ZやEのボタンが離された場合は停止コマンドを送らない
+        }
+        
+        // 視覚的なフィードバック: 対応するUIボタンのアクティブ状態を解除
+        const button = document.getElementById(key);
+        if (button) {
+            button.classList.remove('active-key');
+        }
+    }
+});
