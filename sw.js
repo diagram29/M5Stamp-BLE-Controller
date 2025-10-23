@@ -1,13 +1,13 @@
 // sw.js (Service Workerファイル)
 
-const CACHE_NAME = 'm5-ble-v1'; // キャッシュ名（バージョンを上げるとキャッシュが更新される）
+const CACHE_NAME = 'm5-ble-v2'; // キャッシュ名（バージョンを上げるとキャッシュが更新される）
 const urlsToCache = [
-    '/',
-    '/index.html',
-    '/style.css',
-    '/script.js',
-    '/manifest.json',
-    '/unnamed.jpg',
+    './',
+    './index.html',
+    './style.css',
+    './script.js',
+    './manifest.json',
+    './icon-192.png',
     // 必要に応じて、アイコンファイルなども追加
 ];
 
