@@ -217,6 +217,9 @@ document.addEventListener('keyup', (event) => {
         
         // WASDの場合は、キーが離されたら停止コマンド 'Z' を送る
         if (['W', 'A', 'S', 'D'].includes(key)) {
+
+            sendCommand('93');
+
             // ZやEのボタンが離された場合は停止コマンドを送らない
         }
         
