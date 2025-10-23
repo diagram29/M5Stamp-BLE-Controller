@@ -4,20 +4,17 @@
         {
             "src": "./icon-192.png",
             "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
+            "type": "image/png"
         },
         {
             "src": "./icon-512.png",
             "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
+            "type": "image/png"
         },
         {
             "src": "./icon-868.png",
             "sizes": "868x868",
-            "type": "image/png",
-            "purpose": "any"
+            "type": "image/png"
         }
     ],
     "short_name": "M5-BLE",
