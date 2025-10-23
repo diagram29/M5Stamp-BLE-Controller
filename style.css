@@ -1,0 +1,101 @@
+body {
+    font-family: sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f4f4f9;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+
+.controls, .manual-control, .auto-control, .log-area {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+.connect {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+.status {
+    font-weight: bold;
+    color: gray;
+    text-align: center;
+}
+
+.connected {
+    color: green !important;
+}
+
+.wasd-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.action-btn {
+    padding: 20px 10px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 8px;
+    background-color: #e0e0e0;
+    border: none;
+    cursor: pointer;
+}
+
+.emergency {
+    background-color: #dc3545;
+    color: white;
+}
+
+.stop {
+    background-color: #ffc107;
+    color: #333;
+    width: 100%;
+    margin-top: 10px;
+}
+
+#log {
+    width: 100%;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-sizing: border-box;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+#autoCmdInput {
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.send-btn {
+    padding: 10px;
+    font-size: 16px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom: 5px;
+}

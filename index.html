@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>M5 Stamp S3 BLE コントローラ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>M5 Stamp S3 BLE コントローラ</h1>
+    
+    <div class="controls">
+        <button id="connectButton" class="connect">デバイスに接続</button>
+        <div id="status" class="status">未接続</div>
+
+        <div id="deviceName" class="device-info"></div>
+    </div>
+    
+    <hr>
+    
+    <div class="manual-control">
+        <h2>手動操作 (WASD)</h2>
+        <div class="wasd-grid">
+            <button id="W" data-cmd="W" class="action-btn">W (上昇)</button>
+            <div></div> <button id="E" data-cmd="E" class="action-btn emergency">E (緊急停止)</button>
+
+            <button id="A" data-cmd="A" class="action-btn">A (左走行)</button>
+            <button id="S" data-cmd="S" class="action-btn">S (下降)</button>
+            <button id="D" data-cmd="D" class="action-btn">D (右走行)</button>
+        </div>
+        <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
+        <button id="Z" data-cmd="Z" class="action-btn stop">Z (全停止)</button>
+    </div>
+
+    <hr>
+
+    <div class="auto-control">
+        <h2>自動走行コマンド</h2>
+        <input type="text" id="autoCmdInput" placeholder="例: AT L 10 S 2 C 0.1 B 0.1 D">
+        <button id="sendAutoCmdButton" class="send-btn">コマンド送信</button>
+        <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
+    </div>
+
+    <hr>
+
+    <div class="log-area">
+        <h2>デバイスからのメッセージ</h2>
+        <textarea id="log" rows="10" readonly></textarea>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
