@@ -172,22 +172,22 @@ document.addEventListener('keydown', (event) => {
 
     switch (key) {
         case 'W':
-            commandToSend = 'W'; // 上昇
+            commandToSend = '11'; // 上昇
             break;
         case 'A':
-            commandToSend = 'A'; // 左走行
+            commandToSend = '22'; // 左走行
             break;
         case 'S':
-            commandToSend = 'S'; // 下降
+            commandToSend = '12'; // 下降
             break;
         case 'D':
-            commandToSend = 'D'; // 右走行
+            commandToSend = '21'; // 右走行
             break;
         case 'Z':
-            commandToSend = 'Z'; // 全停止
+            commandToSend = '93'; // 全停止
             break;
         case 'E':
-            commandToSend = 'E'; // 緊急停止
+            commandToSend = '99'; // 緊急停止
             break;
         default:
             return; // 割り当てられていないキーは無視
