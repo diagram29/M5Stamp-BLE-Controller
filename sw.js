@@ -1,6 +1,6 @@
 // sw.js (Service Workerファイル)
 
-const CACHE_NAME = 'm5-ble-v2'; // キャッシュ名（バージョンを上げるとキャッシュが更新される）
+const CACHE_NAME = 'm5-ble-v3'; // キャッシュ名（バージョンを上げるとキャッシュが更新される）
 const urlsToCache = [
     './',
     './index.html',
