@@ -120,11 +120,6 @@ h1 {
     background-color: #5a6268; /* 元の色より少し暗く */
     opacity: 0.9;
 }
-.action-btn.active-key {
-    opacity: 0.9;
-    /* 各ボタンの :active スタイルと同じ背景色を強制する */
-    background-color: #5a6268 !important; /* WASDの暗いグレー */
-}
 
 /* --- Z (全停止) --- */
 #Z {
@@ -132,9 +127,6 @@ h1 {
 }
 #Z:active {
     background-color: #c82333; /* 赤をさらに暗く */
-}
-#Z.active-key {
-    background-color: #c82333 !important; /* Zの暗い赤 */
 }
 
 /* --- E (緊急停止) --- */
@@ -144,9 +136,6 @@ h1 {
 }
 .emergency:active {
     background-color: #e0a800; /* 黄色をさらに暗く */
-}
-#E.active-key {
-    background-color: #e0a800 !important; /* Eの暗い黄色 */
 }
 
 /* --- 接続ボタン --- */
