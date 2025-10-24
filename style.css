@@ -50,7 +50,7 @@ hr {
     border: 0;
     height: 1px;
     background: #ccc;
-    margin: 10px 0;
+    margin: 5px 0;
 }
 
 /* -------------------- レイアウト順序設定 -------------------- */
@@ -78,7 +78,7 @@ h1 {
     order: 2; /* ログエリアを一番上 (2番目) */
     border: 1px solid #360fe2;
     border-radius: 25px;
-    padding: 10px;
+    padding: 5px;
     background-color: #504949;
 
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
@@ -93,14 +93,13 @@ h1 {
 
 .auto-control {
     order: 3; /* 自動操作コマンドを3番目 */
-    padding: 15px;
+    padding: 5px;
     border: 1px solid #360fe2;
     border-radius: 25px;
     background-color: #504949;
 
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
-    
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);    
     /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
     /* これでより立体感が増します */
     background: linear-gradient(to bottom, #504949, #3f3939);
@@ -108,7 +107,7 @@ h1 {
 }
 .auto-control2 {
     order: 4; /* 自動操作コマンド2を4番目 */
-    padding: 45px;
+    padding: 25px;
     border: 1px solid #360fe2;
     border-radius: 25px;
     background-color: #504949;
@@ -119,7 +118,8 @@ h1 {
     /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
     /* これでより立体感が増します */
     background: linear-gradient(to bottom, #504949, #3f3939);
-
+    font-size: 23px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 
 }
 
@@ -201,7 +201,7 @@ h1 {
     padding: 15px 15px 30px 15px;
     font-size: 25px;
     font-weight: bold;
-    border: none;
+    border: 2px solid #a70c0c;
     border-radius: 8px;
     cursor: pointer;
     background-color: #6c757d; /* 標準: グレー */
@@ -375,6 +375,14 @@ h1 {
 
 }
 
+/* 選択肢のポップアップウィンドウ全体にスタイルを適用する（新しい標準） */
+#cmd-select::picker(select) {
+    background-color: #333;       /* 背景色を変更 */
+    border: 2px solid #ff9900;    /* 枠線を変更 */
+    border-radius: 25px;           /* 角を丸くする */
+}
+
+
 #secnumInput {
     width: 30%; 
     font-size: 18px; 
@@ -440,6 +448,8 @@ h1 {
 /* --- ステータス/情報 --- */
 .status {
     margin-top: 10px;
+    font-size: 18px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     font-weight: bold;
     color: red;
 }
