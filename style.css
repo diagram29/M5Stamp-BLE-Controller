@@ -382,6 +382,11 @@ h1 {
     border-radius: 25px;           /* 角を丸くする */
 }
 
+#cmd-select optgroup {
+    /* ラベルのテキストを中央揃えにする（非標準の試み） */
+    text-align: center; 
+}
+
 
 #secnumInput {
     width: 30%; 
