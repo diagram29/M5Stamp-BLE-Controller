@@ -3,7 +3,7 @@
 body {
     font-family: Arial, sans-serif;
     background-color: #333131;
-    color: #e20909;
+    color: #1cb657;
     padding: 20px;
     max-width: 2200px;
     margin: 20px auto;
@@ -55,13 +55,19 @@ h1 {
 }
 
 .auto-control {
-    order: 3; /* 自動操作コマンドを4番目 */
-    padding: 35px;
+    order: 3; /* 自動操作コマンドを3番目 */
+    padding: 15px;
     border: 1px solid #360fe2;
     border-radius: 15px;
     background-color: #504949;
 }
-
+.auto-control2 {
+    order: 4; /* 自動操作コマンド2を4番目 */
+    padding: 45px;
+    border: 1px solid #360fe2;
+    border-radius: 15px;
+    background-color: #504949;
+}
 
 .manual-control {
     order: 2; /* 手動操作パネルを3番目 */
@@ -70,6 +76,7 @@ h1 {
     border: 1px solid #360fe2;
     border-radius: 15px;
     background-color: #504949;
+    font-size: 18px;
 }
 
 
@@ -95,7 +102,7 @@ h1 {
     display: grid;
     /* 十字配置のための3x3グリッドを定義 (高さを調整) */
     grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(2, 90px); 
+    grid-template-rows: repeat(1, 90px); 
     gap: 35px;
     max-width: 550px;
     margin: 0 auto 10px;
@@ -218,6 +225,70 @@ h1 {
     background-color: #1e7e34; /* 緑をさらに暗く */
 }
 
+.auto-controls2{
+
+    font-size: 16px;
+}
+
+#autoCmdInput {
+    width: 50%; 
+    font-size: 18px; 
+    
+    /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
+    padding: 5px 5px; 
+    border-radius: 15px;
+    /* height は不要（paddingで高さが決まるため） */
+    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
+
+    /* 上下の隙間を調整 */
+    margin-top: 20px;    /* 上に20pxの隙間 */
+    margin-bottom: 20px; /* 下に20pxの隙間 */
+}
+
+#cmd-select {
+    width: 30%; 
+    font-size: 18px; 
+    
+    /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
+    padding: 5px 5px; 
+    border-radius: 15px;
+    /* height は不要（paddingで高さが決まるため） */
+    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
+
+    /* 上下の隙間を調整 */
+    margin-top: 20px;    /* 上に20pxの隙間 */
+    margin-bottom: 20px; /* 下に20pxの隙間 */
+}
+
+#secnumInput {
+    width: 13%; 
+    font-size: 18px; 
+    
+    /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
+    padding: 5px 5px; 
+    border-radius: 15px;
+    /* height は不要（paddingで高さが決まるため） */
+    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
+
+    /* 上下の隙間を調整 */
+    margin-top: 20px;    /* 上に20pxの隙間 */
+    margin-bottom: 20px; /* 下に20pxの隙間 */
+}
+
+#cyclenumInput {
+    width: 8%; 
+    font-size: 18px; 
+    
+    /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
+    padding: 5px 5px; 
+    border-radius: 15px;
+    /* height は不要（paddingで高さが決まるため） */
+    box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
+
+    /* 上下の隙間を調整 */
+    margin-top: 20px;    /* 上に20pxの隙間 */
+    margin-bottom: 20px; /* 下に20pxの隙間 */
+}
 
 
 /* --- ステータス/情報 --- */
