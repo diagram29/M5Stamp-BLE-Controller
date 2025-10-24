@@ -246,7 +246,7 @@ h1 {
 }
 
 #cmd-select {
-    width: 30%; 
+    width: 35%; 
     font-size: 18px; 
     
     /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
@@ -261,7 +261,7 @@ h1 {
 }
 
 #secnumInput {
-    width: 13%; 
+    width: 25%; 
     font-size: 18px; 
     
     /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
@@ -276,7 +276,7 @@ h1 {
 }
 
 #cyclenumInput {
-    width: 8%; 
+    width: 12%; 
     font-size: 18px; 
     
     /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
