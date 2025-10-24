@@ -273,19 +273,36 @@ document.getElementById('sendAutoCmdButton').addEventListener('click', () => {
 });
 
 document.getElementById('sendAutoCmdButton2').addEventListener('click', () => {
-    const UNIT = 's';
-    
+    const secCom = cmdSelect.value.trim();
     // 1. 各要素から「値（value）」を取得
     const cmdinput1 = document.getElementById('cmd-select').value; // プルダウンの値
     const secinput2 = document.getElementById('secnumInput').value; // 秒数の値
     const cycleinput3 = document.getElementById('cyclenumInput').value; // サイクルの値
+    
+    let UNIT = '';
+    let UNIT2 = '';
+
+    
+    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12') {
+        UNIT = '';
+    } else {
+        // デフォルトの単位（秒など）
+        UNIT = 's';
+    }
+     if (secCom === 'atr' || secCom === 'atl') {
+        UNIT2 = 'c';
+    } else {
+        // デフォルトの単位（秒など）
+        UNIT2 = '';
+    }
+    
     
     // 2. 値が空でないか、または意図しない値でないかを確認（今回は省略）
     
     // 3. コマンド文字列を構築
     // 目的の形式: [cmd-selectの値][secnumInputの値][単位][cyclenumInputの値]
     // 例: "A" + "5" + "s" + "2" => "A5s2"
-    const finalCommand = cmdinput1.trim() + secinput2.trim() + UNIT + cycleinput3.trim(); 
+    const finalCommand = cmdinput1.trim() + secinput2.trim() + UNIT + cycleinput3.trim() + UNIT2; 
     
     // 4. 送信
     if (finalCommand) {
