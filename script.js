@@ -136,19 +136,51 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     }
 });
 
+
+
+
 // 自動走行コマンド送信ボタン
 document.getElementById('sendAutoCmdButton').addEventListener('click', () => {
     const cmd = document.getElementById('autoCmdInput').value;
     if (cmd) sendCommand(cmd);
 });
 
+document.getElementById('sendAutoCmdButton2').addEventListener('click', () => {
+    const UNIT = 's';
+    
+    // 1. 各要素から「値（value）」を取得
+    const cmdinput1 = document.getElementById('cmd-select').value; // プルダウンの値
+    const secinput2 = document.getElementById('secnumInput').value; // 秒数の値
+    const cycleinput3 = document.getElementById('cyclenumInput').value; // サイクルの値
+    
+    // 2. 値が空でないか、または意図しない値でないかを確認（今回は省略）
+    
+    // 3. コマンド文字列を構築
+    // 目的の形式: [cmd-selectの値][secnumInputの値][単位][cyclenumInputの値]
+    // 例: "A" + "5" + "s" + "2" => "A5s2"
+    const finalCommand = cmdinput1.trim() + secinput2.trim() + UNIT + cycleinput3.trim(); 
+    
+    // 4. 送信
+    if (finalCommand) {
+        sendCommand(finalCommand);
+    } else {
+        log('自動走行コマンドの生成に失敗しました。', true);
+    }
+});
+
+
+
 // 次の折返しで停止ボタン
 document.getElementById('stopAtButton').addEventListener('click', () => {
-    sendCommand('STOPAT');
+    sendCommand('99');
 });
 
 // Z (全停止) ボタンの独立した処理
 document.getElementById('Z').addEventListener('click', () => sendCommand('93'));
+
+
+
+
 
 // --- キーボード操作の割り当て ---
 

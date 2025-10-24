@@ -41,6 +41,30 @@
         <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
     </div>
     <hr>
+
+    <hr>
+    <div class="auto-controls">
+
+
+  <label for="cmd-selectbar">コマンド:</label>
+     <select id="cmd-select" name="value">
+         <option value="">-- コマンドを選択してください --</option>
+             <option value="atr">手前から(atr)</option>
+             <option value="atl">奥から(atl)</option>
+
+             <option value="dows" selected>少し下げる秒数指定(dows)(例0.5)</option>
+             <option value="setd">降下量設定(setd)(例0.5)</option>
+
+     </select>
+      <label for="secnumInputbar">秒数を入力(S):</label>
+         <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
+
+      <label for="cyclenumInputbar">往復回数を入力(降下指示の時は空白):</label>
+         <input type="number" id="cyclenumInput" name="value"placeholder="例：15">
+       
+        <button id="sendAutoCmdButton2" class="send-btn2">コマンド送信2</button>
+    </div>
+    <hr>
     
   </div>  
 
@@ -52,9 +76,9 @@
             
             <div></div> 
 
-            <button id="A" data-cmd="22" class="action-btn">A <br>(左走行)</button>            
+            <button id="A" data-cmd="22" class="action-btn">A <br>(手前走行)</button>            
             <button id="S" data-cmd="12" class="action-btn">S <br>(下降)</button>          
-            <button id="D" data-cmd="21" class="action-btn">D <br>(右走行)</button>
+            <button id="D" data-cmd="21" class="action-btn">D <br>(奥に走行)</button>
         </div>
         
         <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
