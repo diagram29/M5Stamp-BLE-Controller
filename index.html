@@ -40,23 +40,32 @@
         <button id="sendAutoCmdButton" class="send-btn">コマンド送信</button>
         <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
     </div>
-    <hr>
+    
 
-    <hr>
+
     <div class="auto-controls2">
 
 
   <label for="cmd-selectbar">コマンド:</label>
      <select id="cmd-select" name="value">
-         <option value="">-- コマンドを選択してください --</option>
-             <option value="atr">手前から(atr)</option>
-             <option value="atl">奥から(atl)</option>
+         <option value=""selected>-- コマンドを選択してください --</option>
+             <option value="atl">手前から(atl)</option>
+             <option value="atr">奥から(atr)</option>
 
-             <option value="dows" selected>少し下げる秒数指定(dows)(例0.5)</option>
+             <option value="">----オプション 編----</option>
+
+             <option value="dows">少し下げる秒数指定(dows)(例0.5)</option>
              <option value="setd">降下量設定(setd)(例0.5)</option>
 
+             <option value="">----単体動作 編----</option>
+             <option value="22">手前走行(単体)(22)</option>
+             <option value="21">奥に走行(単体)(21)</option>
+             <option value="11">上昇(単体)(11)</option>
+             <option value="12">下降(単体)(12)</option>
+             
+
      </select>
-      <label for="secnumInputbar">秒数を入力(S):</label>
+      <label for="secnumInputbar"><br>秒数を入力(S):</label>
          <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
 
       <label for="cyclenumInputbar"><br>往復回数を入力(降下指示の時は空白):</label>
@@ -64,7 +73,6 @@
        
         <button id="sendAutoCmdButton2" class="send-btn2">コマンド送信2</button>
     </div>
-    <hr>
     
   </div>  
 

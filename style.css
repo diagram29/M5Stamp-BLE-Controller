@@ -2,8 +2,9 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #333131;
+    background-color: #221d1d;
     color: #1cb657;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     padding: 20px;
     max-width: 2200px;
     margin: 20px auto;
@@ -11,11 +12,38 @@ body {
     display: flex;   
     flex-direction: column; 
     gap: 20px; /* セクション間の間隔 */
+
+
+
 }
 
 h1 {
     text-align: center;
-    color: #007bff;
+    color:  #007bff;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+
+    /* 1. ロゴ画像を背景に設定 */
+    background-image: url('bak-868.png'); /* ⭐️ 画像ファイルのパスを指定 ⭐️ */
+    /* 2. 画像の繰り返しを防ぐ */
+    background-repeat: no-repeat;
+    /* 3. 画像の配置 (例: 中央) */
+    background-position: center center; 
+    /* 4. 画像のサイズ調整 (画面全体に収める、または特定のサイズ) */
+    background-size: contain; /* または cover, 100px auto など */
+
+    width: 100%;      /* ⭐️ 幅を親要素 (通常は body) いっぱいに広げる ⭐️ */
+    max-width: none;  /* ⭐️ 幅の最大制限を解除 ⭐️ */
+
+    /* 1. 上下のパディングを増やす */
+    /* 上と下に20pxずつ余白を追加 */
+    padding-top: 60px;
+    padding-bottom: 60px;
+    
+    /* 左右のパディングはそのまま維持または調整 */
+    padding-left: 10px; 
+    padding-right: 10px;
+
+
 }
 
 hr {
@@ -49,24 +77,50 @@ h1 {
 .log-area {
     order: 2; /* ログエリアを一番上 (2番目) */
     border: 1px solid #360fe2;
-    border-radius: 5px;
+    border-radius: 25px;
     padding: 10px;
     background-color: #504949;
+
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
+    
+    /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
+    /* これでより立体感が増します */
+    background: linear-gradient(to bottom, #504949, #3f3939);
+
+
 }
 
 .auto-control {
     order: 3; /* 自動操作コマンドを3番目 */
     padding: 15px;
     border: 1px solid #360fe2;
-    border-radius: 15px;
+    border-radius: 25px;
     background-color: #504949;
+
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
+    
+    /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
+    /* これでより立体感が増します */
+    background: linear-gradient(to bottom, #504949, #3f3939);
+
 }
 .auto-control2 {
     order: 4; /* 自動操作コマンド2を4番目 */
     padding: 45px;
     border: 1px solid #360fe2;
-    border-radius: 15px;
+    border-radius: 25px;
     background-color: #504949;
+
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
+    
+    /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
+    /* これでより立体感が増します */
+    background: linear-gradient(to bottom, #504949, #3f3939);
+
+
 }
 
 .manual-control {
@@ -75,8 +129,14 @@ h1 {
     padding: 15px;
     border: 1px solid #360fe2;
     border-radius: 15px;
-    background-color: #504949;
     font-size: 18px;
+
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
+    
+    /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
+    /* これでより立体感が増します */
+    background: linear-gradient(to bottom, #504949, #3f3939);
 }
 
 
@@ -89,12 +149,19 @@ h1 {
 /* -------------------- ログエリア -------------------- */
 .log-area textarea {
     width: 100%;
+    font-size: 18px;
     box-sizing: border-box;
     min-height: 400px;
     padding: 10px;
-    border: 1px solid #ec0f0f;
-    border-radius: 5px;
+    border: 2px solid #ec0f0f;
+    background-color: #292929;
+    color: white;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    border-radius: 25px;
     resize: vertical;
+
+    letter-spacing: 0.5px;
+    line-height: 1.5;
 }
 
 /* -------------------- WASD 手動操作 -------------------- */
@@ -135,11 +202,13 @@ h1 {
     font-size: 25px;
     font-weight: bold;
     border: none;
-    border-radius: 5px;
+    border-radius: 8px;
     cursor: pointer;
     background-color: #6c757d; /* 標準: グレー */
     color: white;
     transition: background-color 0.1s; /* スムーズな遷移 */
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 /* ⭐️ :active スタイル: WASDボタン ⭐️ */
 .action-btn:active {
@@ -188,6 +257,8 @@ h1 {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.1s;
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 .connect:active {
     background-color: #0056b3; /* 青をさらに暗く */
@@ -204,6 +275,8 @@ h1 {
     cursor: pointer;
     margin-left: 10px;
     transition: background-color 0.1s;
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 .send-btn:active {
     background-color: #1e7e34; /* 緑をさらに暗く */
@@ -220,8 +293,14 @@ h1 {
     cursor: pointer;
     margin-left: 10px;
     transition: background-color 0.1s;
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 .send-btn:active {
+    background-color: #1e7e34; /* 緑をさらに暗く */
+}
+
+.send-btn2:active {
     background-color: #1e7e34; /* 緑をさらに暗く */
 }
 
@@ -243,6 +322,23 @@ h1 {
     /* 上下の隙間を調整 */
     margin-top: 20px;    /* 上に20pxの隙間 */
     margin-bottom: 20px; /* 下に20pxの隙間 */
+
+   /* 背景色: 白や薄い色に変更 */
+    background-color: #ffffff; 
+    
+    /* 文字色: 濃い色に変更 */
+    color: #0e0000; 
+    
+    /* --- 形の調整 --- */
+    
+    
+    /* 境界線: 細い実線に変更 */
+    border: 1px solid #055f9b; 
+    
+    /* 影の追加 (任意) */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+
 }
 
 #cmd-select {
@@ -258,10 +354,29 @@ h1 {
     /* 上下の隙間を調整 */
     margin-top: 20px;    /* 上に20pxの隙間 */
     margin-bottom: 20px; /* 下に20pxの隙間 */
+    
+    /* 背景色: 白や薄い色に変更 */
+    background-color: #ffffff; 
+    
+    /* 文字色: 濃い色に変更 */
+    color: #0e0000; 
+    
+    /* --- 形の調整 --- */
+    
+    
+    /* 境界線: 細い実線に変更 */
+    border: 1px solid #055f9b; 
+    
+    /* 影の追加 (任意) */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+
+
+
 }
 
 #secnumInput {
-    width: 13%; 
+    width: 30%; 
     font-size: 18px; 
     
     /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
@@ -273,10 +388,25 @@ h1 {
     /* 上下の隙間を調整 */
     margin-top: 20px;    /* 上に20pxの隙間 */
     margin-bottom: 20px; /* 下に20pxの隙間 */
+
+    /* 背景色: 白や薄い色に変更 */
+    background-color: #ffffff; 
+    
+    /* 文字色: 濃い色に変更 */
+    color: #0e0000; 
+    
+    /* --- 形の調整 --- */
+    
+    
+    /* 境界線: 細い実線に変更 */
+    border: 1px solid #055f9b; 
+    
+    /* 影の追加 (任意) */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 #cyclenumInput {
-    width: 8%; 
+    width: 20%; 
     font-size: 18px; 
     
     /* ⭐️ 上下左右のパディングを増やして、内側の余白と高さを確保 ⭐️ */
@@ -288,6 +418,22 @@ h1 {
     /* 上下の隙間を調整 */
     margin-top: 20px;    /* 上に20pxの隙間 */
     margin-bottom: 20px; /* 下に20pxの隙間 */
+    /* 背景色: 白や薄い色に変更 */
+    background-color: #ffffff; 
+    
+    /* 文字色: 濃い色に変更 */
+    color: #0e0000; 
+    
+    /* --- 形の調整 --- */
+    
+    
+    /* 境界線: 細い実線に変更 */
+    border: 1px solid #055f9b; 
+    
+    /* 影の追加 (任意) */
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+
+
 }
 
 

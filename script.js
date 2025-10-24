@@ -17,7 +17,7 @@ const deviceNameElement = document.getElementById('deviceName');
 // Helper: ログ表示関数
 function log(message, isError = false) {
     const timestamp = new Date().toLocaleTimeString();
-    logElement.value += `[${timestamp}] ${isError ? 'ERROR: ' : ''}${message}\n`;
+    logElement.value += `${timestamp}  ${isError ? 'ERROR: ' : ''}${message}\n`;
     logElement.scrollTop = logElement.scrollHeight;
 }
 

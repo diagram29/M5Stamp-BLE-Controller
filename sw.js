@@ -10,6 +10,7 @@ const urlsToCache = [
     './icon-192.png',
     './icon-512.png',
     './icon-868.png',
+    './bak-868.png',
     
     // 必要に応じて、アイコンファイルなども追加
 ];
