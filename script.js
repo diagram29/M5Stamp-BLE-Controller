@@ -10,9 +10,14 @@ let txCharacteristic = null;
 
 // UI要素
 const logElement = document.getElementById('log');
+const clearLogButton = document.getElementById('clearLogButton');
 const statusElement = document.getElementById('status');
 const connectButton = document.getElementById('connectButton');
 const deviceNameElement = document.getElementById('deviceName');
+
+const cmdSelect = document.getElementById('cmd-select');
+const valueInput = document.getElementById('secnumInput'); // 例: 影響を受けさせたい別の入力フィールド
+const valueInput2 = document.getElementById('cyclenumInput'); // 例: 影響を受けさせたい別の入力フィールド
 
 // Helper: ログ表示関数
 function log(message, isError = false) {
@@ -135,6 +140,128 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
         button.addEventListener('touchend', (e) => { e.preventDefault(); sendCommand('99'); });
     }
 });
+
+clearLogButton.addEventListener('click', () => {
+    // ログエリア（textarea）の値を空にする
+    logElement.value = '';
+    
+    // ログにクリアしたことを記録する（任意）
+    // log('ログをクリアしました。'); 
+});
+
+
+// 選択内容が変更されたときに実行
+cmdSelect.addEventListener('change', () => {
+    // 1. 選択された値（コマンド）を取得
+    const selectedCommand = cmdSelect.value; 
+    
+    // 2. 取得した値（コマンド）に基づいて処理を分岐
+    handleCommandSelection(selectedCommand);
+});
+
+function handleCommandSelection(command) {
+    
+    // 例: secnumInput（秒数入力）の min/max 設定を変更する
+    // 例: 送信ボタンのラベルを変更する
+    
+    switch (command) {
+        case 'atl': // 選択肢Aが選ばれた場合
+            logElement.value = '';
+            log("手前から自動走行を選択");
+            log("秒数と往復回数を入力");
+            // 秒数入力フィールドの最大値を 10 に設定
+            valueInput.disabled = false; // 無効化を解除
+            valueInput2.disabled = false;
+            valueInput.min = "1";
+            valueInput2.min = "1";
+            break;
+            
+        case 'atr': // 選択肢Bが選ばれた場合
+            logElement.value = '';
+            log("奥から自動走行を選択");
+            log("秒数と往復回数を入力");
+            // 秒数入力フィールドの最大値を 5 に設定
+            valueInput.disabled = false; // 無効化を解除
+            valueInput2.disabled = false;
+            valueInput.min = "1";
+            valueInput2.min = "1";
+            break;
+            
+        case 'dows': // 選択肢Cが選ばれた場合
+            log("少し降下を選択");
+            log("秒数のみ入力可能です");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = false; // 無効化を解除
+            valueInput.min = "0.1";
+            valueInput.max = "5";
+            valueInput.step="0.1";
+            valueInput2.disabled = true;
+            valueInput2.value = "";
+            break;
+            
+        case 'setd': // 選択肢Cが選ばれた場合
+            log("降下量設定を選択");
+            log("秒数のみ入力可能です");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = false; // 無効化を解除
+            valueInput.min = "0.1";
+            valueInput.max = "5";
+            valueInput.step="0.1";
+            valueInput2.disabled = true;
+            valueInput2.value = "";
+            break;
+
+        case '22': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("手前移動を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+            
+        case '21': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("奥移動を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+        case '12': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("下降を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+            
+        case '11': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("上昇を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+
+        default:
+            // どのコマンドも選択されていない場合のデフォルト処理
+            valueInput.disabled = false; // 無効化を解除
+            valueInput2.disabled = false;
+            break;
+    }
+}
+
+
+
+
+
 
 
 

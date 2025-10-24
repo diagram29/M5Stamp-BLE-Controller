@@ -450,6 +450,24 @@ h1 {
 }
 
 
+#clearLogButton {
+    padding: 10px 15px;
+    font-size: 16px;
+    background-color: #c01a0e; /* 標準: 緑 */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.1s;
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+}
+#clearLogButton:active {
+    background-color: #134920; /* 緑をさらに暗く */
+}
+
+
 /* --- ステータス/情報 --- */
 .status {
     margin-top: 10px;
