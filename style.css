@@ -91,10 +91,10 @@ h1 { order: 1; /* タイトルを1番目 */}
 }
 
 .auto-control {
-    order: 3; /* 自動操作コマンドを3番目 */
+    order: 4; /* 自動操作コマンドを3番目 */
     
     background-color: #504949;
-    font-size: 23px;
+    font-size: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     border: 1px solid #360fe2;
     border-radius: 25px;
@@ -112,7 +112,7 @@ h1 { order: 1; /* タイトルを1番目 */}
 }
 
 .auto-controls2 {
-    order: 4; /* 自動操作コマンド2を4番目 */
+    order: 3; /* 自動操作コマンド2を4番目 */
 
     background-color: #504949;
     font-size: 20px;
@@ -120,7 +120,9 @@ h1 { order: 1; /* タイトルを1番目 */}
     border: 1px solid #360fe2;
     border-radius: 25px;
     
-    padding: 10px;
+    padding: 5px;
+    margin-top: 10px; 
+    margin-bottom: 5px;
 
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);  
@@ -181,10 +183,10 @@ h1 { order: 1; /* タイトルを1番目 */}
     display: grid;
     /* 十字配置のための3x3グリッドを定義 (高さを調整) */
     grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(1, 90px); 
-    gap: 35px;
-    max-width: 550px;
-    margin: 0 auto 10px;
+    grid-template-rows: repeat(1, 140px); 
+    gap: 30px;
+    max-width: 600px;
+    margin: 0 auto 15px;
 }
 
 /* グリッド配置の指定 */
@@ -192,8 +194,9 @@ h1 { order: 1; /* タイトルを1番目 */}
 #A { grid-area: 2 / 1 / 3 / 2; } /* A (左走行) */
 #S { grid-area: 3 / 2 / 4 / 3; } /* S (下降) */
 #D { grid-area: 2 / 3 / 3 / 4; } /* D (右走行) */
+#Z { grid-area: 2 / 2 / 3 / 3; } /* D (右走行) */
 
-/* -------------------- 停止ボタン (Z, E) -------------------- */
+/* -------------------- 停止ボタン (E) -------------------- */
 .stop-controls {
     display: flex;
     flex-direction: column; /* 縦に並べる */
@@ -201,8 +204,8 @@ h1 { order: 1; /* タイトルを1番目 */}
     margin-top: 15px;
 }
 
-/* Z (全停止) と E (緊急停止) の共通サイズ設定 */
-#Z, #E {
+/* E (緊急停止) の共通サイズ設定 */
+ #E {
     font-size: 18px;
     width: 100%; 
     padding: 20px;
@@ -376,8 +379,8 @@ h1 { order: 1; /* タイトルを1番目 */}
     padding: 5px 5px; 
     width: 20%; 
     /* 上下の隙間 */
-    margin-top: 20px; 
-    margin-bottom: 20px;
+    margin-top: 10px; 
+    margin-bottom: 10px;
    
      /* height は不要（paddingで高さが決まるため） */
     box-sizing: border-box; /* paddingやborderをwidth/heightに含める */
@@ -402,6 +405,8 @@ h1 { order: 1; /* タイトルを1番目 */}
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
 }
 #clearLogButton:active {background-color: #134920;}
+
+#stopAtButton{display: none; /* ボタンを非表示*/}
 
 
 /* --- ステータス/情報 --- */

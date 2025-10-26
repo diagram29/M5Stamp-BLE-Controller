@@ -38,77 +38,71 @@
     </div>
     
     <hr>
-    <div class="auto-control">
-        <h2>🔄自動走行コマンド🔄</h2>
-        <input type="text" id="autoCmdInput" placeholder="例: atr 10 s 2 c 10 b 10 d" autocomplete="on">
-        <button id="sendAutoCmdButton" class="send-btn">コマンド送信</button>
-        <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
-    </div>
-    
+
 
 
     <div class="auto-controls2">
-
-
-  <label for="cmd-selectbar">指示 コマンド:</label>
-     <select id="cmd-select" name="value">
+        <label for="cmd-selectbar">指示 コマンド:</label>
+        <select id="cmd-select" name="value">
          <option value=""selected>-- コマンドを選択してください --</option>
              
             <optgroup label="   --自動走行🚗--   "></optgroup>
             <option value="atl">🔝🔝自動走行 手前から(atl)</option>
-             <hr>
-             <option value="atr">🔚🔚自動走行 奥から(atr)</option>
-             </optgroup>
-             <hr>
-             <hr>
-             <optgroup label="  --オプション--  "></optgroup>
+            <hr>
+            <option value="atr">🔚🔚自動走行 奥から(atr)</option>
+            </optgroup>
+            <hr>
+            <hr>
+            <optgroup label="  --オプション--  "></optgroup>
 
-             <option value="dows">🔻少し下げる秒数指定(dows)(例0.5)</option>
-             <hr>
-             <option value="setd">🔃自動降下量設定(setd)(例0.5)</option>
-             </optgroup>
-             <hr>
-             <hr>
-             <optgroup label="  --単体動作--  "></optgroup>
-             <option value="22">🔚手前走行(単体)(22)</option>
-             <hr>
-             <option value="21">🔝奥に走行(単体)(21)</option>
-             <hr>
-             <option value="11">👆上昇(単体)(11)</option>
-             <hr>
-             <option value="12">👇下降(単体)(12)</option>
-             </optgroup>
+            <option value="dows">🔻少し下げる秒数指定(dows)(例0.5)</option>
+            <hr>
+            <option value="setd">🔃自動降下量設定(setd)(例0.5)</option>
+            </optgroup>
+            <hr>
+            <hr>
+            <optgroup label="  --単体動作--  "></optgroup>
+            <option value="22">🔚手前走行(単体)(22)</option>
+            <hr>
+            <option value="21">🔝奥に走行(単体)(21)</option>
+            <hr>
+            <option value="11">👆上昇(単体)(11)</option>
+            <hr>
+            <option value="12">👇下降(単体)(12)</option>
+            </optgroup>
+        </select>
 
-     </select>
       <label for="secnumInputbar"><br>移動 秒数を入力(S):</label>
-         <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
+        <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
 
       <label for="cyclenumInputbar"><br>往復回数を入力:</label>
-         <input type="number" id="cyclenumInput" name="value"placeholder="例：15">
-       
-        <button id="sendAutoCmdButton2" class="send-btn2">コマンド送信2</button>
+        <input type="number" id="cyclenumInput" name="value"placeholder="例：15">
+        <button id="sendAutoCmdButton2" class="send-btn2">コマンド送信</button>
+        <h2>🔄↑↑自動走行コマンド🔄</h2>
     </div>
-    
-  </div>  
 
-  <div class="column right-column">
+   </div>  
+   
+   <div class="column right-column">
     <div class="manual-control">
         <h2>🤚手動操作🤚 ⌨(WASDキー対応)</h2>
         <div class="wasd-grid">
             <button id="W" data-cmd="11" class="action-btn">W <br>🔼(上昇)🔼</button>
-            
-            <div></div> 
-
+            <button id="Z" data-cmd="93" class="action-btn stop">Z <br>⛔(全停止)⛔</button>
             <button id="A" data-cmd="22" class="action-btn">A <br>(手前走行)</button>            
             <button id="S" data-cmd="12" class="action-btn">S <br>🔽(下降)🔽</button>          
             <button id="D" data-cmd="21" class="action-btn">D <br>(奥に走行)</button>
         </div>
         
         <p class="stop-note">キーを離したときと同様に、停止するには下の 'Z' ボタンを押してください。</p>
-        <div class="stop-controls">
-            <button id="Z" data-cmd="93" class="action-btn stop">Z <br>⛔⛔(全停止)⛔⛔</button>        
+        <div class="stop-controls">      
             <button id="E" data-cmd="99" class="action-btn emergency">E <br>⚠⚠(緊急停止)⚠⚠</button>
         </div>
+    </div>
+    <div class="auto-control">
+        <input type="text" id="autoCmdInput" placeholder="例: atr 10 s 2 c 10 b 10 d" autocomplete="on">
+        <button id="sendAutoCmdButton" class="send-btn">CMD用</button>
+        <button id="stopAtButton" data-cmd="STOPAT" class="send-btn stop">次の折返しで停止</button>
     </div>
   </div>
  </div>
