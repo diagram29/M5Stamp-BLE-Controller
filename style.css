@@ -187,6 +187,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     gap: 20px;
     max-width: 95%;
     margin: 0 auto 15px;
+    padding: 2%;
 }
 
 /* グリッド配置の指定 */
