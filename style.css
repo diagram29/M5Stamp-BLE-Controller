@@ -228,7 +228,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 /* ⭐️ :active スタイル: WASDボタン ⭐️ */
-#W:active,#A:active,#S:active,#D:active {
+.action-btn:active {
     transform: scale(0.88) translateY(4px); 
     box-shadow: none !important;
     background-color: #81191e;
