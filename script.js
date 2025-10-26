@@ -49,6 +49,7 @@ connectButton.addEventListener('click', async () => {
     }
     
     try {
+        logElement.value = '';
         log('スキャンを開始...');
         statusElement.textContent = 'スキャン中...';
 
@@ -249,11 +250,24 @@ function handleCommandSelection(command) {
             valueInput.value = "";
             valueInput2.value = "";
             break;
+        case '99': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("緊急停止を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
 
         default:
             // どのコマンドも選択されていない場合のデフォルト処理
             valueInput.disabled = false; // 無効化を解除
             valueInput2.disabled = false;
+            valueInput.min = "0.1";
+            valueInput2.min = "0.1";
+            valueInput.step="0.1";
+            valueInput2.step="0.1";
             break;
     }
 }

@@ -229,11 +229,15 @@ h1 { order: 1; /* タイトルを1番目 */}
 }
 /* ⭐️ :active スタイル: WASDボタン ⭐️ */
 .action-btn:active {
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
     background-color: #81191e;
     opacity: 0.9;
 }
 .action-btn.active-key {
     /* 各ボタンの :active スタイルと同じ背景色を強制する */
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
     background-color: #81191e !important; /* WASDの暗いグレー */
     opacity: 0.9;
 }
@@ -241,25 +245,35 @@ h1 { order: 1; /* タイトルを1番目 */}
 
 /* --- Z (全停止) --- */
 #Z        {background-color: #dc3545;}
-#Z:active {background-color: #15556e;}
-#Z.active-key {background-color: #15556e !important;}
+#Z:active {
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
+    background-color: #15556e;}
+#Z.active-key {
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
+    background-color: #15556e !important;}
 
 /* --- E (緊急停止) --- */
 .emergency {      color: #333;
        background-color: #ffc107;}
 .emergency:active {
+       transform: scale(0.88) translateY(4px); 
+       box-shadow: none !important;
        background-color: #04638f;}
 #E.active-key {
+       transform: scale(0.88) translateY(4px); 
+       box-shadow: none !important;
        background-color: #04638f !important;}
 
 
 /* --- 接続ボタン --- */
 .connect {
-               color: white;
-    background-color: #007bff;
-    font-size: 18px;
-    border: none;
-    border-radius: 5px;
+               color: rgb(27, 26, 26);
+    background-color: #0c65b8;
+    font-size: 22px;
+    border: 1px solid #e00808;/* 境界線 */ 
+    border-radius: 7px;
 
     padding: 20px 40px;
     cursor: pointer;
@@ -267,7 +281,25 @@ h1 { order: 1; /* タイトルを1番目 */}
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
-.connect:active {background-color: #02883e; }
+.connect:active {
+    /* 2. 押されている時の設定 */
+    /*縮小と合わせて、わずかに下に動かすと、より深く沈んだように見える */
+    transform: scale(0.88) translateY(4px); 
+    
+    /* オプション: 影を消すと、沈んだイメージが強調される */
+    box-shadow: none !important;
+    background: 
+    /* 模様1: 大きな緑の斑点 */
+    radial-gradient(circle at 10% 20%, #4a6c4c 50%, transparent 50%),
+    /* 模様2: 小さな茶色の斑点 */
+    radial-gradient(circle at 80% 90%, #6d5b4a 30%, transparent 30%),
+    /* 模様3: 中間の暗い緑の斑点 */
+    radial-gradient(circle at 50% 50%, #3a5c3c 40%, transparent 40%),
+    /* ベースの色 */
+    #5a7c5c; 
+
+
+}
 
 
 /*自動コマンド送信ボタン1,2*/
@@ -275,7 +307,7 @@ h1 { order: 1; /* タイトルを1番目 */}
                color: white;
     background-color: #28a745; 
     font-size: 16px;
-    border: none;
+    border: 1px solid #055f9b;/* 境界線 */ 
     border-radius: 5px;
 
     padding: 10px 15px;
@@ -285,7 +317,10 @@ h1 { order: 1; /* タイトルを1番目 */}
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
-.send-btn:active,.send-btn2:active  {background-color: #1e587e;}
+.send-btn:active,.send-btn2:active  {
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
+    background-color: #1e587e;}
 
 
 /*自動コマンド入力BOX*/
@@ -388,6 +423,28 @@ h1 { order: 1; /* タイトルを1番目 */}
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
 }
 
+#cyclenumInput:active,#secnumInput:active,#autoCmdInput:active,#cmd-select:active {
+    /* 2. 押されている時の設定 */
+    /*縮小と合わせて、わずかに下に動かすと、より深く沈んだように見える */
+    transform: scale(0.88) translateY(4px); 
+    
+    /* オプション: 影を消すと、沈んだイメージが強調される */
+    box-shadow: none !important;
+    background: 
+    /* 模様1: 大きな緑の斑点 */
+    radial-gradient(circle at 10% 20%, #4a6c4c 50%, transparent 50%),
+    /* 模様2: 小さな茶色の斑点 */
+    radial-gradient(circle at 80% 90%, #6d5b4a 30%, transparent 30%),
+    /* 模様3: 中間の暗い緑の斑点 */
+    radial-gradient(circle at 50% 50%, #3a5c3c 40%, transparent 40%),
+    /* ベースの色 */
+    #5a7c5c;
+    
+    }
+
+
+
+
 /*ログクリアボタン*/
 #clearLogButton {
                color: white;   
@@ -404,17 +461,25 @@ h1 { order: 1; /* タイトルを1番目 */}
     /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
 }
-#clearLogButton:active {background-color: #134920;}
+#clearLogButton:active {
+    transform: scale(0.88) translateY(4px); 
+    box-shadow: none !important;
+    background-color: #134920;}
 
 #stopAtButton{display: none; /* ボタンを非表示*/}
 
 
 /* --- ステータス/情報 --- */
 .status {
-    color: red;
-    font-size: 18px;
+    color: rgb(255, 0, 0);
+    font-size: 20px;
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     margin-top: 10px;
 }
-.device-info {margin-top: 5px;}
+.device-info {
+    color: rgb(0, 255, 106);
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    margin-top: 2px;}
