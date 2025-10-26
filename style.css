@@ -8,7 +8,7 @@ body {
       text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
 
       padding: 20px;
-      max-width: 2200px;
+      max-width: 100%;
           
       margin: 20px auto;
       gap: 20px; /* セクション間の間隔 */
@@ -69,7 +69,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     justify-content: center;   /* コンテナ全体を中央に配置 */
     align-items: flex-start;   /* 列の要素を上端揃えにする */
     gap: 10px;                 /* 2つの列の間に30pxの隙間を空ける */
-    max-width: 1600px;          /* 2列全体の最大幅を設定 */
+    max-width: 100%;          /* 2列全体の最大幅を設定 */
     margin: 0 auto;         /* 上下にマージンをとり、中央に配置 */
 }
 
