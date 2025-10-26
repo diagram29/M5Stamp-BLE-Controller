@@ -184,8 +184,8 @@ h1 { order: 1; /* タイトルを1番目 */}
     /* 十字配置のための3x3グリッドを定義 (高さを調整) */
     grid-template-columns: repeat(3, 1fr); 
     grid-template-rows: repeat(1, 140px); 
-    gap: 30px;
-    max-width: 600px;
+    gap: 20px;
+    max-width: 95%;
     margin: 0 auto 15px;
 }
 
@@ -228,7 +228,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
 }
 /* ⭐️ :active スタイル: WASDボタン ⭐️ */
-.action-btn:active {
+#W:active,#A:active,#S:active,#D:active {
     transform: scale(0.88) translateY(4px); 
     box-shadow: none !important;
     background-color: #81191e;
