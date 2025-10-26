@@ -19,10 +19,22 @@ const cmdSelect = document.getElementById('cmd-select');
 const valueInput = document.getElementById('secnumInput'); // 例: 影響を受けさせたい別の入力フィールド
 const valueInput2 = document.getElementById('cyclenumInput'); // 例: 影響を受けさせたい別の入力フィールド
 
+// --- アプリケーション起動時の処理 ---
+document.addEventListener('DOMContentLoaded', async () => {
+    await openDB(); // データベース接続を確立
+    loadLogsFromDB(); // 過去のログを読み込む
+    
+    // (ここに他の初期化処理やイベントリスナーを設定)
+});
+
+
+
 // Helper: ログ表示関数
 function log(message, isError = false) {
     const timestamp = new Date().toLocaleTimeString();
     logElement.value += `${timestamp}  ${isError ? 'ERROR: ' : ''}${message}\n`;
+    // 2. IndexedDBに保存 (非同期処理)
+    saveLogToDB(message);
     logElement.scrollTop = logElement.scrollHeight;
 }
 
@@ -35,6 +47,118 @@ function stringToBytes(str) {
 function bytesToString(buffer) {
     return new TextDecoder().decode(buffer);
 }
+//-------------------------------------------------------
+//ログ用データベース構築
+//-------------------------------------------------------
+
+// IndexedDB設定
+const DB_NAME = 'ControllerLogDB';
+const DB_VERSION = 1;
+const STORE_NAME = 'logs';
+let db;
+
+/**
+ * IndexedDBをオープンし、必要に応じてデータベース構造を初期化する
+ * @returns {Promise<IDBDatabase>} データベースインスタンスを返すPromise
+ */
+function openDB() {
+    return new Promise((resolve, reject) => {
+        // データベース接続要求
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+
+        // データベースのバージョンが変更されたとき（初回作成時を含む）
+        request.onupgradeneeded = (event) => {
+            db = event.target.result;
+            // オブジェクトストア（テーブル）を作成。キーは自動インクリメント
+            if (!db.objectStoreNames.contains(STORE_NAME)) {
+                db.createObjectStore(STORE_NAME, { keyPath: 'id', autoIncrement: true });
+            }
+        };
+
+        // 接続成功
+        request.onsuccess = (event) => {
+            db = event.target.result;
+            resolve(db);
+        };
+
+        // 接続失敗
+        request.onerror = (event) => {
+            console.error('IndexedDB Error:', event.target.error);
+            reject(event.target.error);
+        };
+    });
+}
+
+/**
+ * ログメッセージをIndexedDBに保存する
+ * @param {string} message - 保存するログメッセージ
+ */
+async function saveLogToDB(message) {
+    if (!db) await openDB(); // DB接続を待機
+    
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    
+    // ログオブジェクトを作成
+    const logEntry = { 
+        timestamp: new Date().toISOString(), 
+        message: message 
+    };
+    
+    store.add(logEntry); // データをストアに追加
+    
+    transaction.onerror = (event) => {
+        console.error('Log save error:', event.target.error);
+    };
+}
+
+/**
+ * IndexedDBからすべてのログを読み込み、ログエリアに表示する
+ */
+async function loadLogsFromDB() {
+    if (!db) await openDB(); // DB接続を待機
+    
+    const transaction = db.transaction([STORE_NAME], 'readonly');
+    const store = transaction.objectStore(STORE_NAME);
+    const request = store.getAll(); // すべてのデータを取得
+
+    request.onsuccess = (event) => {
+        const logs = event.target.result;
+        let logText = '';
+        
+        // ログデータを整形してテキストエリアに結合
+        logs.forEach(entry => {
+            const time = new Date(entry.timestamp).toLocaleTimeString();
+            logText += ` ${entry.message}\n`;
+        });
+        
+        logArea.value = logText;
+        logArea.scrollTop = logArea.scrollHeight;
+    };
+    
+    request.onerror = (event) => {
+        console.error('Log load error:', event.target.error);
+    };
+}
+
+/**
+ * IndexedDBのログをすべてクリアする
+ */
+async function clearAllLogs() {
+    if (!db) await openDB();
+    
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+    
+    store.clear(); // ストア内の全データを削除
+    
+    return new Promise((resolve, reject) => {
+        transaction.oncomplete = resolve;
+        transaction.onerror = reject;
+    });
+}
+
+
 
 // ----------------------------------------------------
 // BLE イベントハンドラ
