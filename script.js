@@ -134,7 +134,7 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     
     // キーを離したら停止コマンド (mouseup)
     // ただし、Z (全停止)ボタンは停止コマンド自体なので例外
-    if (command !== 'Z') {
+    if (command !== 'key5') {
         button.addEventListener('mouseup', () => sendCommand('93'));
         // タッチデバイス用 (touchstart/touchend)
         button.addEventListener('touchstart', (e) => { e.preventDefault(); sendCommand(command); });
@@ -334,7 +334,7 @@ document.getElementById('stopAtButton').addEventListener('click', () => {
 });
 
 // Z (全停止) ボタンの独立した処理
-document.getElementById('Z').addEventListener('click', () => sendCommand('93'));
+document.getElementById('key5').addEventListener('click', () => sendCommand('93'));
 
 
 
@@ -361,22 +361,22 @@ document.addEventListener('keydown', (event) => {
     let commandToSend = '';
 
     switch (key) {
-        case 'W':
+        case '8':
             commandToSend = '11'; // 上昇
             break;
-        case 'A':
+        case '4':
             commandToSend = '22'; // 左走行
             break;
-        case 'S':
+        case '2':
             commandToSend = '12'; // 下降
             break;
-        case 'D':
+        case '6':
             commandToSend = '21'; // 右走行
             break;
-        case 'Z':
+        case '5':
             commandToSend = '93'; // 全停止
             break;
-        case 'E':
+        case '0':
             commandToSend = '99'; // 緊急停止
             break;
         default:
@@ -406,7 +406,7 @@ document.addEventListener('keyup', (event) => {
         keysPressed[event.key] = false; 
         
         // WASDの場合は、キーが離されたら停止コマンド 'Z' を送る
-        if (['W', 'S'].includes(key)) {
+        if (['8', '2'].includes(key)) {
 
             sendCommand('93');
 
