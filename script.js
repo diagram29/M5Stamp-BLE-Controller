@@ -113,32 +113,53 @@ async function saveLogToDB(message) {
 }
 
 /**
- * IndexedDBからすべてのログを読み込み、ログエリアに表示する
+ * IndexedDBからすべてのログを読み込み、整形されたログテキストを返す
+ * @returns {Promise<string>} 整形されたログテキストを返すPromise
  */
 async function loadLogsFromDB() {
-    if (!db) await openDB(); // DB接続を待機
+    // 1. DB接続を待機
+    if (!db) await openDB();
     
-    const transaction = db.transaction([STORE_NAME], 'readonly');
-    const store = transaction.objectStore(STORE_NAME);
-    const request = store.getAll(); // すべてのデータを取得
+    // 2. Promiseを返し、非同期処理の結果を待つ
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction([STORE_NAME], 'readonly');
+        const store = transaction.objectStore(STORE_NAME);
+        const request = store.getAll(); // すべてのデータを取得 (非同期)
 
-    request.onsuccess = (event) => {
-        const logs = event.target.result;
-        let logText = '';
+        // 成功イベント (データ取得完了時)
+        request.onsuccess = (event) => {
+            const logs = event.target.result;
+            let logText = '';
+            
+            // ログデータを整形
+            logs.forEach(entry => {
+                // 過去ログにはタイムスタンプも付けておくと便利
+                const time = new Date(entry.timestamp).toLocaleTimeString();
+                logText += `[${time}] ${entry.message}\n`;
+            });
+            
+            // ログエリアの更新（起動時のメインログ表示用）
+            // ※ 別ウィンドウ表示の際はここでは不要ですが、アプリ起動時にも使いたいなら残します。
+            const logArea = document.getElementById('log');
+            if (logArea) {
+                logArea.value = logText;
+                logArea.scrollTop = logArea.scrollHeight;
+            }
+            
+            // ログテキストを解決 (Promiseの成功)
+            resolve(logText); 
+        };
         
-        // ログデータを整形してテキストエリアに結合
-        logs.forEach(entry => {
-            const time = new Date(entry.timestamp).toLocaleTimeString();
-            logText += ` ${entry.message}\n`;
-        });
+        // 失敗イベント
+        request.onerror = (event) => {
+            console.error('Log load error:', event.target.error);
+            // エラーを拒否 (Promiseの失敗)
+            reject(new Error('ログの読み込みに失敗しました')); 
+        };
         
-        logArea.value = logText;
-        logArea.scrollTop = logArea.scrollHeight;
-    };
-    
-    request.onerror = (event) => {
-        console.error('Log load error:', event.target.error);
-    };
+        // トランザクションが完了したことを確認する oncomplete は、この場合不要です
+        // transaction.oncomplete = () => { /* ... */ }; 
+    });
 }
 
 /**
@@ -551,5 +572,103 @@ document.addEventListener('keyup', (event) => {
         if (button) {
             button.classList.remove('active-key');
         }
+    }
+});
+
+
+// 過去ログ表示ボタンのイベントリスナー
+document.getElementById('openLogViewerButton').addEventListener('click', async () => {
+    try {
+        // ログデータを非同期で読み込む
+        const logData = await loadLogsFromDB();
+
+        // 閲覧用の新しいウィンドウを開く
+        const logWindow = window.open('', 'LogViewer', 'width=600,height=400,scrollbars=yes,resizable=yes');
+        
+        // 新しいウィンドウに表示するHTMLコンテンツを構築
+        const htmlContent = `
+            <!DOCTYPE html>
+            <html lang="ja">
+            <head>
+                <title>過去の送受信ログ</title>
+                <style>
+                    body { font-family: sans-serif; margin: 20px; background-color: #f4f4f4; }
+                    h1 { color: #333; }
+                    textarea { 
+                        width: 100%; 
+                        height: 300px; 
+                        padding: 10px; 
+                        box-sizing: border-box; 
+                        border: 1px solid #ccc; 
+                        background-color: white;
+                        font-family: monospace;
+                        font-size: 12px;
+                    }
+                    button { margin-top: 10px; padding: 10px 15px; cursor: pointer; }
+                </style>
+            </head>
+            <body>
+                <h1>過去の送受信ログ</h1>
+                <textarea readonly>${logData}</textarea>
+                <button onclick="window.close()">ウィンドウを閉じる</button>
+            </body>
+            </html>
+        `;
+
+        // ウィンドウにコンテンツを書き込み
+        logWindow.document.write(htmlContent);
+        logWindow.document.close(); // 書き込みを終了
+
+    } catch (error) {
+        // エラーが発生した場合、メインのログエリアに記録
+        appendLog(`過去ログ表示エラー: ${error}`, true);
+    }
+});
+
+// ダウンロードボタンのイベントリスナー
+document.getElementById('downloadLogButton').addEventListener('click', async () => {
+    try {
+        // 1. IndexedDBから整形されたログテキストを取得
+        // loadLogsFromDB()はPromise<string>を返すよう修正済みである必要があります
+        const logData = await loadLogsFromDB();
+
+        if (logData.trim().length === 0) {
+            appendLog('ダウンロードするログデータがありません。', false);
+            return;
+        }
+
+        // 2. Blob（バイナリデータ）として準備
+        // MIMEタイプは 'text/plain' で、UTF-8エンコーディングを指定
+        const blob = new Blob([logData], { type: 'text/plain;charset=utf-8' });
+
+        // 3. ダウンロードリンクを作成
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        
+        // ファイル名を決定 (例: YYYYMMDD-HHMMSS_log.txt)
+        const now = new Date();
+        const timestamp = now.getFullYear().toString() + 
+                          (now.getMonth() + 1).toString().padStart(2, '0') +
+                          now.getDate().toString().padStart(2, '0') +
+                          '-' +
+                          now.getHours().toString().padStart(2, '0') +
+                          now.getMinutes().toString().padStart(2, '0') +
+                          now.getSeconds().toString().padStart(2, '0');
+                          
+        link.download = `${timestamp}_controller_log.txt`;
+        link.href = url;
+
+        // 4. ダウンロードを実行
+        document.body.appendChild(link);
+        link.click();
+        
+        // 5. 後処理
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url); // メモリ解放
+        
+        appendLog(`ログを "${link.download}" としてダウンロードしました。`, false);
+        
+    } catch (error) {
+        appendLog(`ログのダウンロードに失敗しました: ${error.message}`, true);
     }
 });
