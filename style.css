@@ -183,7 +183,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     display: grid;
     /* 十字配置のための3x3グリッドを定義 (高さを調整) */
     grid-template-columns: repeat(3, 1fr); 
-    grid-template-rows: repeat(3, 140px); 
+    grid-template-rows: repeat(3, 1fr); 
     gap: 20px;
     max-width: 95%;
     margin: 0 auto 15px;
