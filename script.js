@@ -259,6 +259,15 @@ function handleCommandSelection(command) {
             valueInput.value = "";
             valueInput2.value = "";
             break;
+        case 'showlog': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("ログ更新を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
 
         default:
             // どのコマンドも選択されていない場合のデフォルト処理
@@ -297,7 +306,7 @@ document.getElementById('sendAutoCmdButton2').addEventListener('click', () => {
     let UNIT2 = '';
 
     
-    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12') {
+    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12'|| secCom === 'showlog'|| secCom === '99') {
         UNIT = '';
     } else {
         // デフォルトの単位（秒など）
