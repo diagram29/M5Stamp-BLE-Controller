@@ -530,6 +530,9 @@ document.addEventListener('keydown', (event) => {
         case '5':
             commandToSend = '93'; // 全停止
             break;
+        case '3':
+            commandToSend = 'dows0.5'; // 0.5秒下げる
+            break;
         case '0':
             commandToSend = '99'; // 緊急停止
             break;
