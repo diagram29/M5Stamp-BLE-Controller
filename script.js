@@ -471,6 +471,28 @@ function handleCommandSelection(command) {
             valueInput.value = "";
             valueInput2.value = "";
             break;
+
+
+        case '30': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("ノコを回転を選択 周囲に注意してください");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+
+        case '31': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("ノコを停止を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
+
         case '99': // 選択肢Cが選ばれた場合
             logElement.value = '';
             log("緊急停止を選択");
@@ -527,7 +549,7 @@ document.getElementById('sendAutoCmdButton2').addEventListener('click', () => {
     let UNIT2 = '';
 
     
-    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12'|| secCom === 'showlog'|| secCom === '99') {
+    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12'|| secCom === '30'||secCom === '31'||secCom === 'showlog'|| secCom === '99') {
         UNIT = '';
     } else {
         // デフォルトの単位（秒など）
