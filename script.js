@@ -304,7 +304,7 @@ connectButton.addEventListener('click', async () => {
         log('M5 Stamp S3との接続が確立しました。');
         
     } catch (error) {
-        log(`接続エラー: ${error.message}`, true);
+        log(`接続エラー:マイコンのリブートを試みてください ${error.message}`, true);
         statusElement.textContent = '未接続';
         statusElement.classList.remove('connected');
         connectButton.textContent = 'デバイスに接続';
