@@ -33,6 +33,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 function log(message, isError = false) {
     const timestamp = new Date().toLocaleTimeString();
     logElement.value += `${timestamp}  ${isError ? 'ERROR: ' : ''}${message}\n`;
+    
+    // ⭐️ 追加: 音声読み上げ ⭐️
+    // データベースに保存するメッセージ自体を読み上げる
+    speakText(message);
     // 2. IndexedDBに保存 (非同期処理)
     saveLogToDB(message);
     logElement.scrollTop = logElement.scrollHeight;
@@ -47,6 +51,47 @@ function stringToBytes(str) {
 function bytesToString(buffer) {
     return new TextDecoder().decode(buffer);
 }
+
+// ----------------------------------------------------
+// 音声読み上げ機能 (Speech Synthesis) の追加
+// ----------------------------------------------------
+
+/**
+ * 指定されたテキストをWeb Speech APIで読み上げる関数
+ * @param {string} textToSpeak - 読み上げるテキスト
+ */
+function speakText(textToSpeak) {
+    if (!('speechSynthesis' in window)) {
+        return; 
+    }
+
+    // 既存の読み上げを停止し、新しい読み上げを開始
+    window.speechSynthesis.cancel(); 
+
+    const utterance = new SpeechSynthesisUtterance();
+    
+    // ログメッセージからタイムスタンプや矢印、記号を削除して読みやすいテキストに整形
+    const cleanText = textToSpeak
+        .replace(/^[0-9:]+\s+(?:ERROR:\s+|->\s+コマンド送信:\s+)?/i, '') // タイムスタンプ、ERROR、コマンド送信ヘッダーを削除
+        .replace(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/gi, ' ') // 記号をスペースに置換
+        .replace(/\s+/g, ' ') // 連続するスペースを一つにまとめる
+        .trim(); 
+
+    if (cleanText === '' || cleanText.length > 200) return; // 短すぎる、または長すぎるログは無視
+
+    utterance.text = cleanText;
+    utterance.lang = 'ja-JP'; 
+    utterance.rate = 2; 
+    utterance.volume = 1;
+
+    // 読み上げを実行
+    window.speechSynthesis.speak(utterance);
+}
+
+
+
+
+
 //-------------------------------------------------------
 //ログ用データベース構築
 //-------------------------------------------------------
@@ -180,10 +225,38 @@ async function clearAllLogs() {
 }
 
 
+function openTab(event, contentId) {
+  // 1. すべてのコンテンツを非表示にする
+  const tabContents = document.getElementsByClassName("tab-content");
+  for (let i = 0; i < tabContents.length; i++) {
+    tabContents[i].classList.remove("active");
+  }
+
+  // 2. すべてのボタンからactiveクラスを削除する
+  const tabButtons = document.getElementsByClassName("tab-button");
+  for (let i = 0; i < tabButtons.length; i++) {
+    tabButtons[i].classList.remove("active");
+  }
+
+  // 3. クリックされたボタンに対応するコンテンツを表示する
+  const selectedContent = document.getElementById(contentId);
+  if (selectedContent) {
+    selectedContent.classList.add("active");
+  }
+
+  // 4. クリックされたボタンにactiveクラスを付与する (デザインの切り替え)
+  event.currentTarget.classList.add("active");
+}
+
+
+
+
 
 // ----------------------------------------------------
 // BLE イベントハンドラ
 // ----------------------------------------------------
+
+
 
 // 接続ボタンが押されたときの処理
 connectButton.addEventListener('click', async () => {
@@ -270,10 +343,13 @@ async function sendCommand(command) {
 // UI操作イベント
 // ----------------------------------------------------
 
+
+
+
 // WASD/E/Z ボタンのイベントリスナー設定
 document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     const command = button.dataset.cmd;
-    
+
     // 押している間だけ動作 (mousedown)
     button.addEventListener('mousedown', () => sendCommand(command));
     

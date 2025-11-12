@@ -54,6 +54,59 @@ hr {
     margin: 5px 0;
 }
 
+
+/* タブのコンテンツデザイン */
+.tab-content {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-top: none; /* タブボタンとの間に線が重複しないように */
+  display: none; /* ★重要: デフォルトではすべて非表示にする */
+}
+
+/* activeクラスがついたコンテンツのみ表示する */
+.tab-content.active {
+  display: block; /* ★重要: JavaScriptでこのクラスを付け外しして表示を制御する */
+}
+
+
+/* タブボタンのデザイン */
+.tab-button {
+
+    color: rgb(27, 26, 26);
+    background-color: #a59f91;
+    font-size: 22px;
+    border: 1px solid #380303;/* 境界線 */ 
+    border-radius: 7px;
+
+    padding: 20px 40px;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4); 
+
+}
+
+/* 選択されているタブのデザイン */
+.tab-button.active {
+  /* 2. 押されている時の設定 */
+    /*縮小と合わせて、わずかに下に動かすと、より深く沈んだように見える */
+    transform: scale(0.88) translateY(4px); 
+    
+    /* オプション: 影を消すと、沈んだイメージが強調される */
+    box-shadow: none !important;
+    background: 
+    /* 模様1: 大きな緑の斑点 */
+    radial-gradient(circle at 10% 20%, #4a6c4c 50%, transparent 50%),
+    /* 模様2: 小さな茶色の斑点 */
+    radial-gradient(circle at 80% 90%, #6d5b4a 30%, transparent 30%),
+    /* 模様3: 中間の暗い緑の斑点 */
+    radial-gradient(circle at 50% 50%, #3a5c3c 40%, transparent 40%),
+    /* ベースの色 */
+    #5a7c5c; 
+
+  border-bottom: 3px solid #333; /* 下線で選択中を強調 */
+}
+
 /* -------------------- レイアウト順序設定 -------------------- */
 h1 { order: 1; /* タイトルを1番目 */}
 
@@ -133,7 +186,7 @@ h1 { order: 1; /* タイトルを1番目 */}
 }
 
 .manual-control {
-    order: 2; /* 手動操作パネルを3番目 */
+    order: 3; /* 手動操作パネルを3番目 */
 
     font-size: 18px;
     text-align: center;
@@ -167,7 +220,7 @@ h1 { order: 1; /* タイトルを1番目 */}
     border-radius: 25px;
     
     box-sizing: border-box;
-    min-height: 400px;
+    min-height: 600px;
 
     padding: 10px;
     width: 100%;
