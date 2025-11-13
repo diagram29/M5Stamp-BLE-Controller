@@ -23,7 +23,7 @@ const valueInput2 = document.getElementById('cyclenumInput'); // 例: 影響を�
 document.addEventListener('DOMContentLoaded', async () => {
     await openDB(); // データベース接続を確立
     loadLogsFromDB(); // 過去のログを読み込む
-    
+
     // (ここに他の初期化処理やイベントリスナーを設定)
 });
 
@@ -337,6 +337,10 @@ connectButton.addEventListener('click', async () => {
 // M5 Stamp S3からのメッセージを受信したときの処理
 function handleNotifications(event) {
     const value = event.target.value;
+
+
+
+
     const receivedString = bytesToString(value.buffer);
     log(`:: ${receivedString.trim()}`);
 }
@@ -529,7 +533,15 @@ function handleCommandSelection(command) {
             valueInput.value = "";
             valueInput2.value = "";
             break;
-
+        case 'restart': // 選択肢Cが選ばれた場合
+            logElement.value = '';
+            log("システム再起動を選択");
+            // 処理が不要なため、秒数入力を無効化
+            valueInput.disabled = true;
+            valueInput2.disabled = true;
+            valueInput.value = "";
+            valueInput2.value = "";
+            break;
         default:
             // どのコマンドも選択されていない場合のデフォルト処理
             valueInput.disabled = false; // 無効化を解除
@@ -567,7 +579,7 @@ document.getElementById('sendAutoCmdButton2').addEventListener('click', () => {
     let UNIT2 = '';
 
     
-    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12'|| secCom === '30'||secCom === '31'||secCom === 'showlog'|| secCom === '99') {
+    if (secCom === '22' || secCom === '21'|| secCom === '11'|| secCom === '12'|| secCom === '30'||secCom === '31'||secCom === 'showlog'||secCom === 'restart'|| secCom === '99') {
         UNIT = '';
     } else {
         // デフォルトの単位（秒など）
