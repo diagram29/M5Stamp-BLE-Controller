@@ -72,7 +72,7 @@ function speakText(textToSpeak) {
     
     // ログメッセージからタイムスタンプや矢印、記号を削除して読みやすいテキストに整形
     const cleanText = textToSpeak
-        .replace(/^[0-9:]+\s+(?:ERROR:\s+|->\s+コマンド送信:\s+)?/i, '') // タイムスタンプ、ERROR、コマンド送信ヘッダーを削除
+        .replace(/^[0-9:]+\s+(?:ERROR:\s+|->\s+コマンド送信:\s+|M5:\s+)?/i, '') // タイムスタンプ、ERROR、コマンド送信ヘッダーを削除
         .replace(/[^\w\s\u3040-\u309F\u30A0-\u30FF\u4E00-\u9FAF]/gi, ' ') // 記号をスペースに置換
         .replace(/\s+/g, ' ') // 連続するスペースを一つにまとめる
         .trim(); 
@@ -252,8 +252,12 @@ function openTab(event, contentId) {
 
   }else if(contentId=="content-c"){
             logElement.value = '';
-            log("ヘルプモードです機能の確認ができます");
-   }
+            log("ヘルプモードです機能の確認ができます"+ "\n" +"このシステムは電気で制御できる、あらゆる機械を制御するためのコントローラーシステムです。このウインドウはWEBアプリで、Githubサーバーで稼働してます、ブラウザが動くあらゆるデバイスでオフラインで使用が可能です。");
+
+  }else if(contentId=="content-ai"){
+            logElement.value = '';
+            log("AIモードです、現在開発中です。");
+  }
 
   }
 
