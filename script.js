@@ -242,7 +242,25 @@ function openTab(event, contentId) {
   const selectedContent = document.getElementById(contentId);
   if (selectedContent) {
     selectedContent.classList.add("active");
+   if(contentId=="manual-control"){
+            logElement.value = '';
+            log("手動操作モードです テンキーも対応しています");
+
+  }else if(contentId=="auto-controls2"){
+            logElement.value = '';
+            log("自動操作モードと単体コマンドです"+ "\n" +"バックグラウンドでも動作します");
+
+  }else if(contentId=="content-c"){
+            logElement.value = '';
+            log("ヘルプモードです機能の確認ができます");
+   }
+
   }
+
+
+
+
+
 
   // 4. クリックされたボタンにactiveクラスを付与する (デザインの切り替え)
   event.currentTarget.classList.add("active");
