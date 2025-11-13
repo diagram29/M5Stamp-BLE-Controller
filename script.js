@@ -389,8 +389,7 @@ function handleCommandSelection(command) {
     switch (command) {
         case 'atl': // 選択肢Aが選ばれた場合
             logElement.value = '';
-            log("手前から自動走行を選択");
-            log("秒数と往復回数を入力");
+            log("手前から自動走行を選択"+ "\n" +"秒数と往復回数を入力してね");
             // 秒数入力フィールドの最大値を 10 に設定
             valueInput.disabled = false; // 無効化を解除
             valueInput2.disabled = false;
@@ -400,8 +399,7 @@ function handleCommandSelection(command) {
             
         case 'atr': // 選択肢Bが選ばれた場合
             logElement.value = '';
-            log("奥から自動走行を選択");
-            log("秒数と往復回数を入力");
+            log("奥から自動走行を選択"+ "\n" +"秒数と往復回数を入力してね");
             // 秒数入力フィールドの最大値を 5 に設定
             valueInput.disabled = false; // 無効化を解除
             valueInput2.disabled = false;
@@ -410,8 +408,7 @@ function handleCommandSelection(command) {
             break;
             
         case 'dows': // 選択肢Cが選ばれた場合
-            log("少し降下を選択");
-            log("秒数のみ入力可能です");
+            log("少し降下を選択"+ "\n" +"秒数のみ入力可能です");
             // 処理が不要なため、秒数入力を無効化
             valueInput.disabled = false; // 無効化を解除
             valueInput.min = "0.1";
@@ -422,8 +419,7 @@ function handleCommandSelection(command) {
             break;
             
         case 'setd': // 選択肢Cが選ばれた場合
-            log("降下量設定を選択");
-            log("秒数のみ入力可能です");
+            log("降下量設定を選択"+ "\n" +"秒数のみ入力可能です");
             // 処理が不要なため、秒数入力を無効化
             valueInput.disabled = false; // 無効化を解除
             valueInput.min = "0.1";
