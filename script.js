@@ -244,7 +244,7 @@ function openTab(event, contentId) {
     selectedContent.classList.add("active");
    if(contentId=="manual-control"){
             logElement.value = '';
-            log("手動操作モードです テンキーも対応しています");
+            log("手動操作モードです テンキーも対応しています"+ "\n" +"テンキーは、バックグラウンドでも動作します");
 
   }else if(contentId=="auto-controls2"){
             logElement.value = '';
