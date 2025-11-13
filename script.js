@@ -338,7 +338,7 @@ connectButton.addEventListener('click', async () => {
 function handleNotifications(event) {
     const value = event.target.value;
     const receivedString = bytesToString(value.buffer);
-    log(`M5: ${receivedString.trim()}`);
+    log(`:: ${receivedString.trim()}`);
 }
 
 // コマンド送信関数
