@@ -98,7 +98,7 @@
 
     <div id="auto-controls2" class="auto-controls2 tab-content">
       <h3>🔄自動走行と他操作</h3>
-      <label for="cmd-selectbar">やらせたいこと:</label>
+      <label for="cmd-selectbar">やらせたいこと</label><br>
         <select id="cmd-select" name="value">
          <option value=""selected>-- ここをタップして指示を選んでね --</option>
              
@@ -139,13 +139,13 @@
             </optgroup>
 
         </select>
-
-      <label for="secnumInputbar"><br>移動 秒数を入力(S):</label>
+      <br>
+      <label for="secnumInputbar"><br>移動 秒数を入力(S)</label><br>
         <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
-
-      <label for="cyclenumInputbar"><br>往復回数を入力:</label>
+      <br>
+      <label for="cyclenumInputbar"><br>往復回数を入力(C)</label><br>
         <input type="number" id="cyclenumInput" name="value"placeholder="例：15">
-        <button id="sendAutoCmdButton2" class="send-btn2">コマンド送信</button>
+        <button id="sendAutoCmdButton2" class="send-btn2">指示を送信</button>
     </div>
 
     <div id="content-c" class="tab-content">
@@ -162,9 +162,26 @@
            秒数(s)で移動距離、サイクル数(c)で繰り返しを認識します。<br>
             <br>
             -- その他コマンド --<br>
+            入力はすべて半角英数字です。<br>
              setdx: 下降値を変更 (例: setd0.3x)<br>
              dowsx: 設定秒数降下 (例: dows0.8x)<br>
-             入力はすべて半角英数字です。</p>
+             
+              <br>
+             11:up        上昇" <br>
+             10:udstop    上下停止" <br>
+             12:down      下降"<br>
+             <br>
+             21:left      左走行"<br>
+             20:lrstop    走行停止"<br>
+             22:right     右走行"<br>
+              <br>
+             31:nocostart ノコスタート"<br>
+             30:nocostop  ノコ停止"<br>
+              <br>
+             99:emj       現在の動作が終了次停止"<br>
+            <br>
+            
+            </p>
     </div>
   </div>
        </div>

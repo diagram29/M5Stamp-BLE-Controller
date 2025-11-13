@@ -167,10 +167,10 @@ h1 { order: 1; /* タイトルを1番目 */}
 .auto-controls2 {
     order: 3; /* 自動操作コマンド2を4番目 */
 
-    background-color: #504949;
+    background-color: #97977c;
     font-size: 20px;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
-    border: 1px solid #360fe2;
+    border: 1px solid #0fe260;
     border-radius: 25px;
     
     padding: 5px;
@@ -188,6 +188,7 @@ h1 { order: 1; /* タイトルを1番目 */}
 .manual-control {
     order: 3; /* 手動操作パネルを3番目 */
 
+    background-color: #689785;
     font-size: 18px;
     text-align: center;
     border: 1px solid #360fe2;
@@ -496,6 +497,29 @@ h1 { order: 1; /* タイトルを1番目 */}
     #5a7c5c;
     
     }
+
+#content-c {
+
+    color: white;
+    background-color: #251919;
+    font-size: 16px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
+    border: 2px solid #0fe5ec;
+    border-radius: 25px;
+    
+    box-sizing: border-box;
+    min-height: 600px;
+
+    padding: 10px;
+    width: 100%;
+    
+    resize: vertical;
+
+    letter-spacing: 0.5px;
+    line-height: 1.5;
+
+
+}
 
 
 
