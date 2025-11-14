@@ -406,7 +406,7 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     
     // キーを離したら停止コマンド (mouseup/touchend)
     // ただし、Z (全停止)ボタン (command === '93') や瞬間コマンド ('dows0.5') は例外
-    if (command !== '93' && command !== 'dows0.5') {
+    if (command !== '93' && command !== 'dows0.5'&& command !== '21'&& command !== '22') {
         // マウスアップ時
         button.addEventListener('mouseup', () => {
             // stopCommandがある場合はそれを送信、ない場合は'93'をフォールバック
