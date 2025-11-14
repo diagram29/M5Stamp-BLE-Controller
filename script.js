@@ -371,7 +371,7 @@ async function sendCommand(command) {
 
 
 
-
+/*
 // WASD/E/Z ボタンのイベントリスナー設定
 document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     const command = button.dataset.cmd;
@@ -386,8 +386,44 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
         // タッチデバイス用 (touchstart/touchend)
         button.addEventListener('touchstart', (e) => { e.preventDefault(); sendCommand(command); });
         button.addEventListener('touchend', (e) => { e.preventDefault(); sendCommand('99'); });
+       
+
+
+    }
+});*/
+
+document.querySelectorAll('.manual-control .action-btn').forEach(button => {
+    const command = button.dataset.cmd;
+    // ⭐️ 追加: 離した時の独立したコマンドを取得
+    const stopCommand = button.dataset.stopCmd;
+
+    // 押している間だけ動作 (mousedown/touchstart)
+    button.addEventListener('mousedown', () => sendCommand(command));
+    button.addEventListener('touchstart', (e) => { 
+        e.preventDefault(); 
+        sendCommand(command); 
+    });
+    
+    // キーを離したら停止コマンド (mouseup/touchend)
+    // ただし、Z (全停止)ボタン (command === '93') や瞬間コマンド ('dows0.5') は例外
+    if (command !== '93' && command !== 'dows0.5') {
+        // マウスアップ時
+        button.addEventListener('mouseup', () => {
+            // stopCommandがある場合はそれを送信、ない場合は'93'をフォールバック
+            sendCommand(stopCommand || '93');
+        });
+        
+        // タッチデバイス用 (touchend) 
+        button.addEventListener('touchend', (e) => { 
+            e.preventDefault(); 
+            // stopCommandがある場合はそれを送信、ない場合は'99'をフォールバック
+            sendCommand(stopCommand || '99'); 
+        });
     }
 });
+
+
+
 
 clearLogButton.addEventListener('click', () => {
     // ログエリア（textarea）の値を空にする
@@ -690,13 +726,19 @@ document.addEventListener('keyup', (event) => {
         // キーが離された状態を解除
         keysPressed[event.key] = false; 
         
-        // WASDの場合は、キーが離されたら停止コマンド 'Z' を送る
+        // WASDの場合は、キーが離されたら上下停止コマンド '10' を送る
         if (['8', '2'].includes(key)) {
 
-            sendCommand('93');
+            sendCommand('10');
 
             // ZやEのボタンが離された場合は停止コマンドを送らない
         }
+        //if (['4', '6'].includes(key)) {
+
+          //  sendCommand('20');
+
+        //}
+        
         
         // 視覚的なフィードバック: 対応するUIボタンのアクティブ状態を解除
         const button = document.getElementById(key);
