@@ -562,3 +562,139 @@ h1 { order: 1; /* タイトルを1番目 */}
     font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.6);
     margin-top: 2px;}
+
+
+
+
+
+    /* --- モーダルウィンドウ (マルチステップ) --- */
+
+/* --- モーダルウィンドウ (マルチステップ) --- */
+
+/* モーダル全体の背景/オーバーレイ */
+.modal-overlay {
+    /* 画面全体に固定 */
+    position: fixed; 
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    
+    /* 半透明の背景 */
+    background-color: rgba(0, 0, 0, 0.8); 
+    
+    /* 最前面に表示するための設定 */
+    z-index: 9999; 
+    
+    /* ⭐️ 1. 中央寄せのために Flexbox を有効にする ⭐️ */
+    display: flex;
+    /* ⭐️ 2. 水平方向の中央揃え ⭐️ */
+    justify-content: center; 
+    /* ⭐️ 3. 垂直方向の中央揃え ⭐️ */
+    align-items: center;   
+    
+    /* 初期状態は JavaScript で display: none; または HTML でインライン設定 */
+}
+
+/* モーダルコンテンツ (白い箱の部分) */
+.modal-content {
+    /* ... 既存のスタイルを保持 ... */
+    background-color: #3f3939; 
+    color: #1cb657; 
+    padding: 25px;
+    border: 3px solid #007bff; 
+    border-radius: 12px;
+    width: 90%; 
+    max-width: 500px; 
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+    animation: fadeIn 0.3s ease-out;
+    
+    /* 💡 以前、コンテンツに設定していたマージンがあれば削除します 💡 */
+    /* margin: 15% auto; /* ← これがあると Flexbox の中央寄せが効かないため削除 */ 
+}
+
+/* モーダル内のボタン共通スタイル */
+.modal-cmd-btn, .auto-setup-cmd-btn {
+    /* action-btn のスタイルをベースに調整 */
+    color: white;
+    background-color: #007bff;
+    font-size: 18px;
+    font-weight: bold;
+    border: 1px solid #0056b3;
+    border-radius: 8px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: transform 0.1s;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+/* モーダル内のコマンド選択ボタンのレイアウト調整 */
+.auto-setup-cmd-btn {
+    display: block; /* 縦に並べる */
+    margin-bottom: 10px;
+}
+
+/* キャンセルボタン */
+#closeMultiStepModalButton {
+    background-color: #6c757d;
+}
+
+/* アクティブ/ホバー時のエフェクト */
+.modal-cmd-btn:active, .auto-setup-cmd-btn:active, #closeMultiStepModalButton:active {
+    transform: scale(0.95);
+    box-shadow: none;
+}
+
+
+
+/* --- 往復回数ボタンの基本スタイル --- */
+
+/* メイン画面とモーダルの両方のボタンを対象 */
+.main-cycle-option-btn,
+.cycle-option-btn {
+    /* 大きさの調整 */
+    padding: 10px 15px; /* 上下左右のパディングを増やす */
+    margin: 5px; /* ボタン間のスペース */
+    font-size: 16px; /* 文字サイズを大きく */
+    min-width: 60px; /* ボタンの最小幅 */
+    
+    /* 見た目の調整 */
+    cursor: pointer;
+    border: 2px solid #5cb85c; /* 緑色の境界線 */
+    background-color: #f9f9f9; /* 明るい背景 */
+    color: #333;
+    border-radius: 5px; /* 角を丸く */
+    transition: background-color 0.1s, transform 0.1s, box-shadow 0.1s; /* アニメーション追加 */
+}
+
+/* --- 💡 押した感触（ホバー/アクティブ）の調整 --- */
+
+/* マウスオーバー時の反応 */
+.main-cycle-option-btn:hover,
+.cycle-option-btn:hover {
+    background-color: #e6ffe6; /* より薄い緑に */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 軽い影で浮き上がらせる */
+}
+
+/* 押下時の感触 (active) */
+.main-cycle-option-btn:active,
+.cycle-option-btn:active {
+    background-color: #5cb85c; /* 背景を緑に */
+    color: white; /* 文字を白に */
+    transform: translateY(1px); /* ボタンを少し下に移動 */
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); /* 影を小さくして沈んだ感じ */
+}
+
+/* --- ✅ 選択中の状態（selected-option）のフィードバック --- */
+
+/* JavaScriptで selected-option クラスが付与されたとき */
+.main-cycle-option-btn.selected-option,
+.cycle-option-btn.selected-option {
+    background-color: #449d44; /* 濃いめの緑 */
+    color: white;
+    border-color: #449d44;
+    font-weight: bold;
+}

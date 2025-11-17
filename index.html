@@ -80,11 +80,17 @@
     <div id="manual-control" class="manual-control tab-content active">
   <h3>🤚手動操作だよ！🤚⌨(テンキー対応)</h3>
   <div class="wasd-grid">
+
+       <button id="startAutoSetupButton" class="action-btn" style="background-color: #f7a31b;" data-key="7">
+            7 <br>🚀自動設定
+        </button>
+    
+
     <button id="W" data-cmd="11" data-stop-cmd="10" class="action-btn">8 <br>🔼(上昇)🔼</button>
     <div></div>
     <button id="key5" data-cmd="93" class="action-btn stop" data-key="5">5 <br>⛔(全停止)⛔</button>
-    <button id="A" data-cmd="22" data-stop-cmd="" class="action-btn">4 <br>(手前走行)</button>            
-    <button id="S" data-cmd="12" data-stop-cmd="10" class="action-btn">2 <br>🔽(下降)🔽</button>          
+    <button id="A" data-cmd="22" data-stop-cmd="" class="action-btn">4 <br>(手前走行)</button> 
+    <button id="S" data-cmd="12" data-stop-cmd="10" class="action-btn">2 <br>🔽(下降)🔽</button> 
     <button id="D" data-cmd="21" data-stop-cmd="" class="action-btn">6 <br>(奥に走行)</button>
     <button id="C" data-cmd="dows0.5" class="action-btn">3 <br>(0.5秒下げる)</button>
   </div>
@@ -92,6 +98,17 @@
         <div class="stop-controls">      
             <button id="E" data-cmd="99" class="action-btn emergency">0 <br>⚠⚠(緊急停止)⚠⚠</button>
         </div>
+
+       <div class="measurement-area" style="padding: 10px; border: 1px solid #ccc; border-radius: 5px; margin-top: 10px; background-color: #f9f9f9;">
+        <h4 style="margin-top: 5px;">⏳ 自動走行時間計測</h4>
+        <p style="font-size: 0.9em; margin-bottom: 8px;">計測したい区間を手動で走行させ、ボタンで時間を測ります。</p>
+        
+        <p id="timerResult" style="font-size: 1.2em; font-weight: bold;">結果: 0.00 秒</p>
+    </div>
+
+
+       
+
     </div>
 
 
@@ -147,6 +164,11 @@
         <input type="number" id="secnumInput" name="value"placeholder="例：150や0.5など">
       <br>
       <label for="cyclenumInputbar"><br>往復回数を入力(C)</label><br>
+        <div id="mainCycleOptions" style="margin-top: 5px;">
+    <button type="button" class="main-cycle-option-btn" data-cycle="5">5回</button>
+    <button type="button" class="main-cycle-option-btn" data-cycle="10">10回</button>
+    <button type="button" class="main-cycle-option-btn" data-cycle="15">15回</button>
+    </div>
         <input type="number" id="cyclenumInput" name="value"placeholder="例：15">
         <button id="sendAutoCmdButton2" class="send-btn2">指示を送信</button>
     </div>
@@ -201,10 +223,6 @@
        </div>
 
 
-    
-
-
-
     <div class="auto-control">
         <input type="text" id="autoCmdInput" placeholder="例: atr 10 s 2 c 10 b 10 d" autocomplete="on">
         <button id="sendAutoCmdButton" class="send-btn">CMD用</button>
@@ -217,7 +235,52 @@
 
 
  </div>
+ 
+ <div id="multiStepModal" class="modal-overlay" style="display: none;">
+  <div class="modal-content">
+    <h2 id="modalTitle">ステップ 1/2: 自動コマンドの選択</h2>
+    
+      <div id="modalStep1">
+        <p>実行したい自動走行コマンドを選択してください。</p>
+        <button class="auto-setup-cmd-btn" data-cmd="atl">🔝 手前から自動走行</button>
+        <button class="auto-setup-cmd-btn" data-cmd="atr">🔚 奥から自動走行</button>
+        <p style="margin-top: 15px; font-size: 0.9em;">(この後、秒数と回数を入力します)</p>
+      </div>
+
+      <div id="modalStep2" style="display: none;">
+        <p id="selectedCmdDisplay"></p>
+        <label for="modalSecInput">移動 秒数 (S):</label>
+        <input type="number" id="modalSecInput" min="0.1" step="0.1" placeholder="例: 150 や 0.5" style="width: 100%; padding: 8px; margin-bottom: 15px;">
+
+        <label for="modalCycleInput">往復回数 (C):</label>
+        <div id="cycleOptions" style="margin-top: 10px;">
+    <p>往復回数の選択:</p>
+    <button type="button" class="cycle-option-btn" data-cycle="5">5回</button>
+    <button type="button" class="cycle-option-btn" data-cycle="10">10回</button>
+    <button type="button" class="cycle-option-btn" data-cycle="15">15回</button>
+    </div>
+      <input type="number" id="modalCycleInput" min="1" step="1" placeholder="例: 10" style="width: 100%; padding: 8px; margin-bottom: 20px;">
+
+          <button id="sendMultiStepCommandButton" class="modal-cmd-btn" style="background-color: #28a745;">
+            ✅ コマンドを送信
+        </button>
+       </div>
+      <button id="closeMultiStepModalButton" class="modal-close-btn" style="margin-top: 15px;">キャンセル/閉じる</button>
+    </div>
+</div>
+
+
+
+
+
+
+
+
 
     <script src="script.js"></script>
+
+    
+
+
 </body>
 </html>

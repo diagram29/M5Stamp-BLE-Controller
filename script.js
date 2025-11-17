@@ -19,11 +19,58 @@ const cmdSelect = document.getElementById('cmd-select');
 const valueInput = document.getElementById('secnumInput'); // 例: 影響を受けさせたい別の入力フィールド
 const valueInput2 = document.getElementById('cyclenumInput'); // 例: 影響を受けさせたい別の入力フィールド
 
+// main.js の冒頭付近、またはグローバルな変数宣言の箇所
+let startTime = null; // 走行開始時間を保持 (null: 未計測, Date.now()の値: 計測中)
+const timerResult = document.getElementById('timerResult'); // HTMLの表示要素
+// ⭐️ 追加: 計測結果を保持する変数 ⭐️
+let measuredTimeResult = 0; // 計測結果の秒数を保持
+
+
 // --- アプリケーション起動時の処理 ---
 document.addEventListener('DOMContentLoaded', async () => {
     await openDB(); // データベース接続を確立
     loadLogsFromDB(); // 過去のログを読み込む
 
+
+    // 🚀 【ここから新規追加】往復回数選択肢のイベントリスナー
+    document.querySelectorAll('.cycle-option-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const cycleValue = e.target.dataset.cycle;
+            const modalCycleInput = document.getElementById('modalCycleInput');
+            
+            if (modalCycleInput) {
+                // 選択肢の値を入力フィールドに設定
+                modalCycleInput.value = cycleValue;
+                // ログに記録
+                log(`往復回数にプリセット値「${cycleValue}回」を設定しました。`);
+                
+                // 視覚的なフィードバック (オプション: 選択されたボタンをハイライト)
+                document.querySelectorAll('.cycle-option-btn').forEach(btn => btn.classList.remove('selected-option'));
+                e.target.classList.add('selected-option');
+            }
+        });
+    });
+
+
+
+    // 🚀 【メイン画面の往復回数リスナーの修正】 
+    document.querySelectorAll('.main-cycle-option-btn').forEach(button => {
+        button.addEventListener('click', (e) => {
+            const cycleValue = e.target.dataset.cycle;
+            // 修正: 'cyclenumInput' に変更
+            const cycleInput = document.getElementById('cyclenumInput'); 
+            
+            if (cycleInput) {
+                // 選択肢の値を入力フィールドに設定
+                cycleInput.value = cycleValue;
+                log(`メイン画面の往復回数にプリセット値「${cycleValue}回」を設定しました。`);
+                
+                // 視覚的なフィードバック (オプション)
+                document.querySelectorAll('.main-cycle-option-btn').forEach(btn => btn.classList.remove('selected-option'));
+                e.target.classList.add('selected-option');
+            }
+        });
+    });
     // (ここに他の初期化処理やイベントリスナーを設定)
 });
 
@@ -394,34 +441,61 @@ document.querySelectorAll('.manual-control .action-btn').forEach(button => {
 
 document.querySelectorAll('.manual-control .action-btn').forEach(button => {
     const command = button.dataset.cmd;
-    // ⭐️ 追加: 離した時の独立したコマンドを取得
-    const stopCommand = button.dataset.stopCmd;
+    
+    // 継続的な動作を伴うコマンドを定義
+    // '11' (上昇), '12' (下降), '22' (手前走行), '21' (奥に走行)
+    const isContinuousCommand = ['11', '12', '22', '21'].includes(command);
+    
+    // 上下操作のボタンであるかを判定
+    const isVerticalCommand = ['11', '12'].includes(command);
 
-    // 押している間だけ動作 (mousedown/touchstart)
-    button.addEventListener('mousedown', () => sendCommand(command));
+    // 押している間だけ動作 (mousedown/touchstart) の処理
+    const startAction = (cmd) => {
+        sendCommand(cmd);
+        // タイマーロジックはそのまま
+        handleTimerLogic(cmd); 
+    };
+
+    button.addEventListener('mousedown', () => startAction(command));
     button.addEventListener('touchstart', (e) => { 
         e.preventDefault(); 
-        sendCommand(command); 
+        startAction(command); 
     });
     
-    // キーを離したら停止コマンド (mouseup/touchend)
-    // ただし、Z (全停止)ボタン (command === '93') や瞬間コマンド ('dows0.5') は例外
-    if (command !== '93' && command !== 'dows0.5'&& command !== '21'&& command !== '22') {
+    // ⭐️ キーを離したら停止コマンド (mouseup/touchend) ⭐️
+    if (isContinuousCommand && isVerticalCommand) {
+        // 上下操作（11, 12）の場合のみ、離したときに '10' (上下停止) を送信する
+        const stopCommand = '10'; 
+
+        const stopAction = (cmd) => {
+            sendCommand(cmd);
+            // 停止時はタイマーを終了させる (全停止と同様の処理)
+            handleTimerLogic('93'); 
+        };
+
         // マウスアップ時
         button.addEventListener('mouseup', () => {
-            // stopCommandがある場合はそれを送信、ない場合は'93'をフォールバック
-            sendCommand(stopCommand || '93');
+            stopAction(stopCommand);
         });
         
-        // タッチデバイス用 (touchend) 
+        // タッチデバイス用 (touchend)
         button.addEventListener('touchend', (e) => { 
             e.preventDefault(); 
-            // stopCommandがある場合はそれを送信、ない場合は'99'をフォールバック
-            sendCommand(stopCommand || '99'); 
+            stopAction(stopCommand); 
         });
     }
+    
+    // Z (全停止: 93) ボタン、およびその他の単発コマンドの処理
+    if (command === '93') {
+        // Z(93) の場合は click イベントで単発送信すればよい
+        button.addEventListener('click', () => {
+            sendCommand('93');
+            handleTimerLogic('93');
+        });
+    }
+    // 単発コマンド（dows0.5など）や、走行コマンド（21, 22）は、
+    // mousedown/touchstart だけで動作が完結し、mouseup/touchend は無視される
 });
-
 
 
 
@@ -453,20 +527,31 @@ function handleCommandSelection(command) {
             logElement.value = '';
             log("手前から自動走行を選択"+ "\n" +"秒数と往復回数を入力してね");
             // 秒数入力フィールドの最大値を 10 に設定
+            // ⭐️ 修正: 値をクリア ⭐️
+            valueInput.value = ""; 
+            valueInput2.value = "";
+
             valueInput.disabled = false; // 無効化を解除
             valueInput2.disabled = false;
             valueInput.min = "1";
             valueInput2.min = "1";
+            valueInput.step = "1";
             break;
             
         case 'atr': // 選択肢Bが選ばれた場合
             logElement.value = '';
             log("奥から自動走行を選択"+ "\n" +"秒数と往復回数を入力してね");
             // 秒数入力フィールドの最大値を 5 に設定
+            // ⭐️ 修正: 値をクリア ⭐️
+            valueInput.value = ""; 
+            valueInput2.value = "";
+
+
             valueInput.disabled = false; // 無効化を解除
             valueInput2.disabled = false;
             valueInput.min = "1";
             valueInput2.min = "1";
+            valueInput.step = "1";
             break;
             
         case 'dows': // 選択肢Cが選ばれた場合
@@ -592,6 +677,47 @@ function handleCommandSelection(command) {
 
 
 
+/**
+ * モーダル内でのコマンド選択時のログ表示と入力制限の調整
+ * (既存の handleCommandSelection と同様だが、モーダル内の要素を操作する)
+ * @param {string} command - 選択されたコマンド ('atl', 'atr', 'dows', 'setd'など)
+ */
+function handleCommandSelectionInModal(command) {
+    // ログ表示
+    switch (command) {
+        case 'atl':
+            log("手前から自動走行を選択。秒数と往復回数を入力してください。");
+            break;
+        case 'atr':
+            log("奥から自動走行を選択。秒数と往復回数を入力してください。");
+            break;
+        case 'dows':
+            log("少し降下を選択。秒数のみ入力可能です (0.1秒～5秒)。");
+            break;
+        case 'setd':
+            log("降下量設定を選択。秒数（降下時間）のみ入力可能です (0.1秒～5秒)。");
+            break;
+        default:
+            log("値の入力画面に進みました。");
+            break;
+    }
+    
+    // 入力フィールドの制限（主に step/min/max）を調整
+    if (command === 'dows' || command === 'setd') {
+        modalSecInput.min = "0.1";
+        modalSecInput.max = "5";
+        modalSecInput.step = "0.1";
+        modalCycleInput.disabled = true;
+    } else if (command === 'atl' || command === 'atr') {
+        modalSecInput.min = "1";
+        modalSecInput.max = "30"; // 暫定
+        modalSecInput.step = "1";
+        modalCycleInput.min = "1";
+        modalCycleInput.disabled = false;
+    }
+}
+
+
 
 
 
@@ -679,6 +805,22 @@ document.addEventListener('keydown', (event) => {
     let commandToSend = '';
 
     switch (key) {
+
+        case '7':
+            // 🚀 新規追加: テンキー7が押されたら自動設定モーダルを開く
+            if (!keysPressed[event.key]) {
+                const autoSetupButton = document.getElementById('startAutoSetupButton');
+                if (autoSetupButton) {
+                    autoSetupButton.click(); // ボタンのクリックイベントを発火
+                    keysPressed[event.key] = true; // キーが押された状態を記録
+                    autoSetupButton.classList.add('active-key'); // 視覚的フィードバック
+                    event.preventDefault(); // ブラウザのデフォルト動作を防ぐ
+                    return; // コマンド送信ロジックには進まない
+                }
+            }
+            return;
+
+
         case '8':
             commandToSend = '11'; // 上昇
             break;
@@ -708,9 +850,12 @@ document.addEventListener('keydown', (event) => {
     if (commandToSend) {
         sendCommand(commandToSend);
         keysPressed[event.key] = true; // キーが押された状態を記録
+
+       // ⭐️ 新規追加: 時間計測ロジックを呼び出す ⭐️
+       handleTimerLogic(commandToSend);
         
         // 視覚的なフィードバック: 対応するUIボタンをアクティブ状態にする
-        const button = document.getElementById(key);
+        const button = document.querySelector(`[data-key="${key}"]`);
         if (button) {
             button.classList.add('active-key');
         }
@@ -725,6 +870,18 @@ document.addEventListener('keyup', (event) => {
     if (keysPressed[event.key]) {
         // キーが離された状態を解除
         keysPressed[event.key] = false; 
+
+        // 7の場合は特殊な停止コマンドは不要 (モーダルを開くだけのため)
+        if (key === '7') {
+            const button = document.getElementById('startAutoSetupButton');
+            if (button) {
+                button.classList.remove('active-key');
+            }
+            return; // 停止コマンドは送らない
+        }
+
+
+
         
         // WASDの場合は、キーが離されたら上下停止コマンド '10' を送る
         if (['8', '2'].includes(key)) {
@@ -741,7 +898,7 @@ document.addEventListener('keyup', (event) => {
         
         
         // 視覚的なフィードバック: 対応するUIボタンのアクティブ状態を解除
-        const button = document.getElementById(key);
+        const button = document.querySelector(`[data-key="${key}"]`);
         if (button) {
             button.classList.remove('active-key');
         }
@@ -845,3 +1002,347 @@ document.getElementById('downloadLogButton').addEventListener('click', async () 
         appendLog(`ログのダウンロードに失敗しました: ${error.message}`, true);
     }
 });
+
+
+
+//----------------------------------------------------
+// 🕹️ ゲームパッド操作の割り当て
+//----------------------------------------------------
+
+let gamepadInterval; 
+// どのコマンドが現在アクティブか追跡するオブジェクト
+const gamepadCommandsActive = {}; 
+
+// Gamepad API イベントリスナー (接続/切断)
+window.addEventListener("gamepadconnected", (event) => {
+    log(`ゲームパッドが接続されました: ${event.gamepad.id}`);
+    // 接続されたら、定期的なポーリングを開始
+    gamepadInterval = setInterval(pollGamepad, 100); // 100msごとにチェック
+});
+
+window.addEventListener("gamepaddisconnected", (event) => {
+    log(`ゲームパッドが切断されました: ${event.gamepad.id}`, true);
+    // 切断されたらポーリングを停止
+    clearInterval(gamepadInterval);
+});
+
+
+function pollGamepad() {
+    // 現在接続されているすべてのゲームパッドを取得
+    const gamepads = navigator.getGamepads();
+    const gamepad = gamepads[0]; // 最初のゲームパッドを使用
+
+    if (!gamepad) return;
+
+    // --- 🕹️ ボタンとコマンドの割り当て定義 ---
+    // これは一般的なXInputコントローラー(Xbox/PS4)を想定した初期設定です。
+    // 使用するコントローラーによっては、インデックスの調整が必要です。
+    const buttonMappings = {
+        // ボタンインデックス: [押された時のコマンド, 離された時のコマンド (上下のみ)]
+        // 上昇/下降 (テンキー 8/2、上下矢印)
+        0: ['11', '10'], // 例: Aボタン/Xボタン (上昇)
+        1: ['12', '10'], // 例: Bボタン/Oボタン (下降)
+        
+        // 左右走行 (テンキー 4/6、左右矢印) - 離されたときに何もしない設定
+        4: ['22', null], // 例: L1 (手前走行)
+        5: ['21', null], // 例: R1 (奥に走行)
+        
+        // 特殊コマンド
+        8: ['93', null], // 例: Select/Back (全停止)
+        9: ['99', null], // 例: Start (緊急停止)
+        
+        // 十字キー (Gamepad Testerで確認しながらインデックスを追加してください)
+        // 12: ['11', '10'], // 十字キー 上
+        // 13: ['12', '10'], // 十字キー 下
+        // 14: ['22', null], // 十字キー 左 (手前走行)
+        // 15: ['21', null], // 十字キー 右 (奥に走行)
+    };
+
+    // --- ボタン処理 ---
+    gamepad.buttons.forEach((button, index) => {
+        const mapping = buttonMappings[index];
+
+        if (!mapping) return; // 割り当てがないボタンはスキップ
+
+        const commandOn = mapping[0];
+        const commandOff = mapping[1];
+        const activeKey = `btn_${index}`; // 状態管理用のユニークなキー
+
+        // ボタンが押されたとき (Down Event)
+        if (button.pressed && !gamepadCommandsActive[activeKey]) {
+            sendCommand(commandOn);
+            gamepadCommandsActive[activeKey] = true;
+        } 
+        // ボタンが離されたとき (Up Event)
+        else if (!button.pressed && gamepadCommandsActive[activeKey]) {
+            // 離された時のコマンドが定義されている場合のみ送信 (上下動作)
+            if (commandOff) {
+                sendCommand(commandOff);
+            }
+            gamepadCommandsActive[activeKey] = false;
+        }
+    });
+
+    // --- スティック処理 (任意: 左スティックのY軸を上下に割り当て) ---
+    // -1.0 (上) から +1.0 (下) までの値を取る
+    const stickY = gamepad.axes[1]; 
+    const threshold = 0.5; // 感度設定
+    const stickKey = 'stick_y';
+
+    // 上に倒された場合 (スティックが-0.5より小さい)
+    if (stickY < -threshold && !gamepadCommandsActive[stickKey]) {
+        sendCommand('11'); // 上昇
+        gamepadCommandsActive[stickKey] = true;
+    } 
+    // 下に倒された場合 (スティックが+0.5より大きい)
+    else if (stickY > threshold && !gamepadCommandsActive[stickKey]) {
+        sendCommand('12'); // 下降
+        gamepadCommandsActive[stickKey] = true;
+    }
+    // スティックが中央に戻った場合 (-0.5から+0.5の間)
+    else if (Math.abs(stickY) <= threshold && gamepadCommandsActive[stickKey]) {
+        sendCommand('10'); // 上下停止
+        gamepadCommandsActive[stickKey] = false;
+    }
+    // ... (右スティックやX軸も同様に追加可能) ...
+}
+
+
+
+// --- マルチステップモーダル機能の追加 ---
+
+// UI要素の取得
+const startAutoSetupButton = document.getElementById('startAutoSetupButton');
+const multiStepModal = document.getElementById('multiStepModal');
+const closeModalButton = document.getElementById('closeMultiStepModalButton');
+const modalStep1 = document.getElementById('modalStep1');
+const modalStep2 = document.getElementById('modalStep2');
+const modalTitle = document.getElementById('modalTitle');
+const selectedCmdDisplay = document.getElementById('selectedCmdDisplay');
+const modalSecInput = document.getElementById('modalSecInput');
+const modalCycleInput = document.getElementById('modalCycleInput');
+const sendMultiStepCommandButton = document.getElementById('sendMultiStepCommandButton');
+
+// 状態管理変数
+let currentSelectedCommand = '';
+
+// --- ヘルパー関数 ---
+
+function resetMultiStepModal() {
+    currentSelectedCommand = '';
+    modalTitle.textContent = 'ステップ 1/2: 自動コマンドの選択';
+    modalStep1.style.display = 'block';
+    modalStep2.style.display = 'none';
+    modalSecInput.value = '';
+    modalCycleInput.value = '';
+    multiStepModal.style.display = 'none';
+}
+
+
+// --- イベントリスナー ---
+
+// 1. 設定ボタンが押されたとき (モーダル表示)
+startAutoSetupButton.addEventListener('click', () => {
+    // ステップ1を初期表示してモーダルを開く
+    resetMultiStepModal();
+    multiStepModal.style.display = 'block';
+    log('自動走行設定を開始します。コマンドを選択してください。');
+
+   // ⭐️ 追記: 計測結果の自動代入 ⭐️
+    const modalSecInput = document.getElementById('modalSecInput');
+    if (measuredTimeResult > 0 && modalSecInput) {
+        // measuredTimeResult の値が 0 より大きい場合のみ代入
+        modalSecInput.value = measuredTimeResult;
+        log(`計測値 ${measuredTimeResult} 秒をモーダルに自動設定しました。`);
+    } else {
+        // 値がない場合は、入力欄をクリアしておく（念のため）
+        if (modalSecInput) {
+             modalSecInput.value = ""; 
+        }
+    }
+    // ----------------------------
+
+});
+
+// 2. 閉じるボタンが押されたとき (モーダルを閉じる)
+closeModalButton.addEventListener('click', () => {
+    resetMultiStepModal();
+    log('自動走行設定をキャンセルしました。');
+});
+
+/// 3. コマンドボタンが押されたとき (ステップ1 -> ステップ2へ)
+document.querySelectorAll('.auto-setup-cmd-btn').forEach(button => {
+    button.addEventListener('click', (event) => {
+        currentSelectedCommand = event.target.dataset.cmd;
+        const cmdName = event.target.textContent.trim();
+        
+        // UIをステップ2に切り替え
+        modalTitle.textContent = 'ステップ 2/2: 値の入力';
+        selectedCmdDisplay.innerHTML = `**選択コマンド:** ${cmdName} (${currentSelectedCommand.toUpperCase()})<br>秒数と回数を入力してください。`;
+        
+        modalStep1.style.display = 'none'; // ステップ1を非表示
+        modalStep2.style.display = 'block'; // ステップ2を表示 👈 ここまでが前回の途中
+
+        // 💡 補足: 走行計測結果が残っていれば、秒数入力欄に自動で反映させる
+        if (timerResult && timerResult.textContent.startsWith('結果:') && currentSelectedCommand !== 'setd') {
+            const timeMatch = timerResult.textContent.match(/(\d+\.\d+)/);
+            if (timeMatch) {
+                modalSecInput.value = timeMatch[1];
+                log(`⏱️ 走行計測結果 (${timeMatch[1]}秒) を秒数入力欄に設定しました。`);
+            }
+        }
+        
+        // コマンドに応じた入力フィールドの制御
+        modalCycleInput.disabled = (currentSelectedCommand !== 'atl' && currentSelectedCommand !== 'atr');
+
+        if (currentSelectedCommand === 'dows' || currentSelectedCommand === 'setd') {
+            modalCycleInput.value = '';
+        }
+
+        // コマンド固有のログを表示
+        handleCommandSelectionInModal(currentSelectedCommand);
+    });
+});
+
+// 4. 送信ボタンが押されたとき (最終コマンドの送信)
+sendMultiStepCommandButton.addEventListener('click', () => {
+    const secInput = modalSecInput.value.trim();
+    const cycleInput = modalCycleInput.value.trim();
+    
+    if (secInput === '' || cycleInput === '') {
+        alert('秒数と往復回数の両方を入力してください！');
+        return;
+    }
+    
+    // コマンドの組み立て (例: atl150s10c)
+    // 💡 既存の sendAutoCmdButton2 のロジックに合わせて 's' と 'c' を追加
+    const finalCommand = `${currentSelectedCommand}${secInput}s${cycleInput}c`;
+    
+    // コマンド送信
+    sendCommand(finalCommand);
+    
+    log(`[手動設定] 組み立てたコマンド "${finalCommand.toUpperCase()}" を送信しました。`);
+    
+    // 完了したらモーダルを閉じる
+    resetMultiStepModal();
+});
+
+// sendMultiStepCommandButtonのイベントリスナーを追加
+sendMultiStepCommandButton.addEventListener('click', () => {
+    // 1. 各要素から値を取得
+    const cmd = currentSelectedCommand;
+    const secValue = modalSecInput.value.trim();
+    const cycleValue = modalCycleInput.value.trim();
+    
+    // 2. 単位の決定
+    let UNIT = '';
+    let UNIT2 = '';
+    
+    if (cmd === 'atl' || cmd === 'atr' || cmd === 'dows' || cmd === 'setd') {
+        UNIT = 's'; // 秒数の単位
+    }
+    
+    if (cmd === 'atl' || cmd === 'atr') {
+        UNIT2 = 'c'; // サイクル回数の単位
+    }
+    
+    // 3. コマンド文字列を構築
+    let finalCommand = cmd;
+    
+    if (secValue) {
+        finalCommand += secValue + UNIT;
+    }
+    
+    if (cycleValue && (cmd === 'atl' || cmd === 'atr')) {
+        finalCommand += cycleValue + UNIT2;
+    }
+    
+    // 4. バリデーション
+    if (finalCommand === cmd) {
+        log('秒数または回数が入力されていません。', true);
+        return;
+    }
+    
+    // 5. 送信
+    sendCommand(finalCommand);
+    log(`⚙️ 自動設定からコマンド送信: ${finalCommand.toUpperCase()}`);
+    
+    // 6. モーダルを閉じる
+    resetMultiStepModal();
+});
+
+
+
+
+/**
+ * 計測を終了し、結果を画面に表示する
+ */
+function stopAndDisplayTimer() {
+    // 走行開始時に startTime を Date.now() でセットしている前提
+    if (startTime === null) {
+        return; // 計測が開始されていなければ何もしない
+    }
+
+    const endTime = Date.now();
+    const duration = (endTime - startTime) / 1000; // 秒に変換
+
+    // 結果をHTMLに表示
+    timerResult.textContent = `結果: ${duration.toFixed(2)} 秒`;
+    
+    // 状態をリセット
+    startTime = null;
+    log(`🏃 走行計測が終了しました: ${duration.toFixed(2)} 秒`);
+}
+
+/**
+ * 送信されたコマンドに基づいて時間計測を開始、リセット、または停止する
+ * @param {string} commandToSend - 送信されたコマンド文字列 ('22', '21', '93'など)
+ */
+function handleTimerLogic(commandToSend) {
+    // 1. 走行開始コマンドの場合 (4:22, 6:21)
+    if (commandToSend === '22' || commandToSend === '21') {
+        
+        // 既に計測中の場合、リセットして新しい計測を開始する
+        if (startTime !== null) {
+            log('🔄 走行方向が変更されました。計測をリセットします。');
+            // stopAndDisplayTimer() は呼ばず、startTimeだけをリセット
+        }
+        
+        // 新しい計測を開始
+        startTime = Date.now();
+        timerResult.textContent = '計測中...';
+    } 
+    
+    // 2. 走行停止コマンドの場合 (5:93)
+    else if (commandToSend === '93' && startTime !== null) {
+        stopAndDisplayTimer(); // 計測を終了し、結果を表示
+    }
+}
+
+/**
+ * 計測を終了し、経過時間を計算してUIに表示する関数
+ */
+function stopAndDisplayTimer() {
+    if (startTime === null) {
+        return; 
+    }
+
+    const endTime = Date.now();
+    const elapsedTimeMs = endTime - startTime; 
+    
+    // 秒に変換し、小数点以下2桁まで表示
+    const elapsedSeconds = (elapsedTimeMs / 1000).toFixed(2); 
+
+    // ⭐️ 修正点 1: グローバル変数に整数値を保存 ⭐️
+    const integerSeconds = Math.round(parseFloat(elapsedSeconds));
+    measuredTimeResult = integerSeconds;
+
+    // 結果をUIに表示
+    timerResult.textContent = `計測時間: ${elapsedSeconds} 秒`;
+    log(`タイマー終了。走行時間: ${elapsedSeconds} 秒。この値を自動走行設定に利用できます。`);
+    
+    // 計測状態をリセット
+    startTime = null; 
+}
+
+
