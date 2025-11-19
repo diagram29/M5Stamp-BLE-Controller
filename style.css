@@ -129,17 +129,34 @@ h1 { order: 1; /* タイトルを1番目 */}
 .log-area {
     order: 2; /* ログエリアを一番上 (2番目) */
 
-    background-color: #504949;
-    border: 1px solid #360fe2;
-    border-radius: 25px;
+   
+    /* 画面への固定と位置指定 */
+  position: fixed;
+  top: 400px;
+  left: 20px;
+  width: 48%;
+  height: 500px;
+  
+  /* 他の要素より手前に表示 */
+  z-index: 9999;
+  
+  /* 背景を半透明の黒にし、ボーダーで区切る */
+  background-color: rgba(44, 56, 56, 0.633); /* 黒色を75%の不透明度で指定 */
+  color: #00ff00; /* コンソール風に文字色を緑色に */
+  border: 1px solid #360fe2;
+  border-radius: 25px;
+  padding: 5px;
+  overflow: auto; /* 内容が多い場合にスクロールできるように */
+  resize: vertical;
+  /* 角を丸める（任意） */
+  border-radius: 15px;
 
-    padding: 5px;
-
-    /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
+  /* 1. 影の設定: X軸, Y軸, ぼかし, 拡散, 色 */
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);   
     /* 2. 背景にグラデーションを少し加えて、光沢感を出す（任意） */
     /* これでより立体感が増します */
-    background: linear-gradient(to bottom, #504949, #3f3939);
+
+
 
 }
 
@@ -221,12 +238,11 @@ h1 { order: 1; /* タイトルを1番目 */}
     border-radius: 25px;
     
     box-sizing: border-box;
-    min-height: 600px;
+    min-height: 70%;
 
-    padding: 10px;
-    width: 100%;
+    padding: 15px;
+    width: 98%;
     
-    resize: vertical;
 
     letter-spacing: 0.5px;
     line-height: 1.5;
