@@ -1131,6 +1131,30 @@ function pollGamepad() {
         gamepadCommandsActive[stickKey] = false;
     }
     // ... (右スティックやX軸も同様に追加可能) ...
+    
+// --- 🕹️ スティック処理 (左スティック X軸: 左右) ---
+    // -1.0 (左) から +1.0 (右) までの値を取る
+    const stickX = gamepad.axes[0]; 
+    const stickXKey = 'stick_x';
+
+    if (stickX < -threshold && !gamepadCommandsActive[stickXKey]) {
+        // 左に倒された場合 (手前移動)
+        sendCommand('22'); 
+        gamepadCommandsActive[stickXKey] = true;
+    } 
+    else if (stickX > threshold && !gamepadCommandsActive[stickXKey]) {
+        // 右に倒された場合 (奥移動)
+        sendCommand('21'); 
+        gamepadCommandsActive[stickXKey] = true;
+    } 
+    else if (Math.abs(stickX) <= threshold && gamepadCommandsActive[stickXKey]) {
+        // スティックが中央に戻った場合
+        sendCommand('20'); // 走行停止
+        gamepadCommandsActive[stickXKey] = false;
+    }
+
+
+    
 }
 
 
